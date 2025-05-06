@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro Infantil</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+
+        <!-- Paso 1: Nombre -->
+        <div class="step" id="step-1">
+            <h1>¡Hola!<br>¿Cómo te llamas?</h1>
+            <input type="text" placeholder="Nombre(s)" id="nombre">
+            <button onclick="mostrarPaso(2)">Siguiente →</button>
+        </div>
+
+        <!-- Paso 2: Apellido -->
+        <div class="step oculto" id="step-2">
+            <h1>¿Y tu apellido?</h1>
+            <input type="text" placeholder="Apellido(s)" id="apellido">
+            <button onclick="mostrarPaso(3)">Siguiente →</button>
+        </div>
+
+        <!-- Paso 3: Edad -->
+        <div class="step oculto" id="step-3">
+            <h1>¿Cuántos años tienes?</h1>
+            <input type="number" placeholder="Edad" id="edad">
+            <button onclick="mostrarPaso(4)">Enviar</button>
+        </div>
+
+        <!-- Paso 4: Tutor -->
+        <div class="step oculto" id="step-4">
+            <h1>¿Cómo se llama tu tutor?<br>Nombre Completo</h1>
+            <input type="text" placeholder="Nombre Completo" id="tutor">
+            <button onclick="mostrarPaso(5)">Enviar</button>
+        </div>
+
+        <!-- Paso 5: Contacto -->
+        <div class="step oculto" id="step-5">
+            <h1>Número de Emergencia</h1>
+            <input type="tel" placeholder="Ej. 555-123-4567" id="tel">
+            <button onclick="mostrarPaso(6)">Enviar</button>
+        </div>
+
+        <!-- Paso 6: Condiciones -->
+        <div class="step oculto" id="step-6">
+            <h1>¿Eres alérgico a algo<br>o tienes alguna enfermedad?</h1>
+            <div class="opciones">
+                <button onclick="responderCondicion(true)">Sí</button>
+                <button onclick="responderCondicion(false)">No</button>
+            </div>
+        </div>
+
+        <!-- Paso 7a: En caso de responder Sí -->
+        <div class="step oculto" id="step-7a">
+            <h1>¿A qué eres alérgico<br>o qué enfermedad tienes?</h1>
+            <input type="text" placeholder="Descríbelo aquí" id="condicion">
+            <button onclick="mostrarPaso(8)">Siguiente →</button>
+        </div>
+
+        <!-- Paso 8: Pregunta si es cristiano -->
+        <div class="step oculto" id="step-8">
+            <h1>¿Eres cristiano?</h1>
+            <div class="opciones">
+            <button onclick="responderCristiano(true)">Sí</button>
+            <button onclick="responderCristiano(false)">No</button>
+            </div>
+        </div>
+
+        <!-- Paso 9a: ¿A qué iglesia asistes? -->
+        <div class="step oculto" id="step-9a">
+            <h1>¿A qué iglesia asistes?</h1>
+            <input type="text" placeholder="Nombre de tu iglesia" id="iglesia">
+            <button onclick="mostrarPaso(10)">Siguiente →</button>
+        </div>
+
+        <!-- Paso 10: ¿Es tu primera vez en el campamento? -->
+        <div class="step oculto" id="step-10">
+            <h1>¿Es la primera vez que asistes a nuestro campamento?</h1>
+            <div class="opciones">
+            <button onclick="finalizar()">Sí</button>
+            <button onclick="finalizar()">No</button>
+            </div>
+        </div>
+
+        <!-- Pantalla final -->
+        <div class="step oculto" id="final">
+            <h1>¡Listo!</h1>
+            <p id="resumen"></p>
+        </div>
+
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
