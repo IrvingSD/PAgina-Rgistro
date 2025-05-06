@@ -8,7 +8,6 @@
 
 body {
     font-family: 'Fredoka', sans-serif;
-    height: 100vh;
     width: 100vw;
     background-color:hsla(0,100%,50%,1);
     background-image:
@@ -25,6 +24,13 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+  }
 
 @keyframes fondo {
     0%   { background-position: 0% 0%; }    /* esquina superior izquierda */
