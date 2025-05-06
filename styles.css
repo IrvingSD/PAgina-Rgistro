@@ -109,3 +109,26 @@ button:hover {
     gap: 3rem;
 }
 
+@media (min-width:720px ){
+    .container {
+        width: 60%;
+        height: 60%;
+    }
+}
+
+@media (min-width:360px ){
+    .container {
+        width: 90%;
+        height: 50%;
+    }
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    input {
+       
+        width: 70vw;
+        max-width: 800px;
+
+    }
+}
