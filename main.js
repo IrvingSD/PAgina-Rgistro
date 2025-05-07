@@ -88,7 +88,8 @@ function responderPrimeraVez(valor) {
   finalizar();
 }
 
-function finalizar() {
+async function finalizar() {
+  // --- Validación (de la primera función) ---
   const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
   const input = pasoActualDiv.querySelector('input');
 
@@ -97,12 +98,32 @@ function finalizar() {
     return;
   }
 
+  // --- Datos para el backend (de la segunda función) ---
+  const datos = {
+    nombre: respuestas.nombre,
+    apellido: respuestas.apellido,
+    edad: parseInt(respuestas.edad),
+    tutor: respuestas.tutor,
+    telefono: respuestas.tel,
+    localidad: respuestas.localidad,
+    medicamento: respuestas.medicamento,
+    condicion: respuestas.condicion ? respuestas.condicionDetalle : "Ninguna",
+    cristiano: respuestas.cristiano,
+    iglesia: respuestas.iglesia || "No aplica",
+    primeraVez: respuestas.primeraVez
+  };
 
-  pasoActualDiv.classList.add('oculto');
-  setTimeout(() => {
-    const finalDiv = document.getElementById('final');
-    finalDiv.classList.remove('oculto');
+  try {
+    // --- Envío al backend (versión asíncrona) ---
+    const response = await fetch("http://localhost:8000/registrar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos)
+    });
 
+    if (!response.ok) throw new Error("Error en el servidor");
+
+    // --- Generar y mostrar el resumen (de la primera función) ---
     const resumen = `
       <strong>Nombre:</strong> ${respuestas.nombre} ${respuestas.apellido}<br>
       <strong>Edad:</strong> ${respuestas.edad}<br>
@@ -116,48 +137,15 @@ function finalizar() {
       <strong>¿Es su primera vez?:</strong> ${respuestas.primeraVez ? "Sí" : "No"}<br>
     `;
 
-
-    
-
+    // --- Transición de pantallas ---
+    pasoActualDiv.classList.add('oculto');
     document.getElementById('resumen').innerHTML = resumen;
-  }, 300);
-}
+    document.getElementById('final').classList.remove('oculto');
 
-
-async function finalizar(e) {  // Añade el parámetro 'e'
-  e.preventDefault();  // Evita la recarga
-  // Recolecta todos los datos del formulario
-  const datos = {
-    nombre: respuestas.nombre,
-    apellido: respuestas.apellido,
-    edad: parseInt(respuestas.edad),  // Convierte a número
-    tutor: respuestas.tutor,
-    telefono: respuestas.tel,
-    alergias: respuestas.condicionDetalle || "Ninguna",  // Valor por defecto
-    cristiano: respuestas.cristiano,
-    iglesia: respuestas.iglesia || "No aplica"
-  };
-
-  try {
-    // Envía los datos al backend
-    const response = await fetch("http://localhost:8000/registrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",  // Indica que envías JSON
-      },
-      body: JSON.stringify(datos)  // Convierte el objeto a JSON
-    });
-
-    if (!response.ok) {
-      throw new Error("Error en la respuesta del servidor");
-    }
-
-    const resultado = await response.json();
-    console.log("Registro exitoso:", resultado);
-    alert("¡Registro completado con éxito!");
-
+    console.log("Registro exitoso:", await response.json());
+    
   } catch (error) {
     console.error("Error al registrar:", error);
-    alert("Hubo un error. Por favor, intenta nuevamente.");
+    alert("Hubo un error. Por favor, revisa la consola.");
   }
 }
