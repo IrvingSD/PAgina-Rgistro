@@ -122,3 +122,42 @@ function finalizar() {
     document.getElementById('resumen').innerHTML = resumen;
   }, 300);
 }
+
+
+async function finalizar(e) {  // Añade el parámetro 'e'
+  e.preventDefault();  // Evita la recarga
+  // Recolecta todos los datos del formulario
+  const datos = {
+    nombre: respuestas.nombre,
+    apellido: respuestas.apellido,
+    edad: parseInt(respuestas.edad),  // Convierte a número
+    tutor: respuestas.tutor,
+    telefono: respuestas.tel,
+    alergias: respuestas.condicionDetalle || "Ninguna",  // Valor por defecto
+    cristiano: respuestas.cristiano,
+    iglesia: respuestas.iglesia || "No aplica"
+  };
+
+  try {
+    // Envía los datos al backend
+    const response = await fetch("http://localhost:8000/registrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",  // Indica que envías JSON
+      },
+      body: JSON.stringify(datos)  // Convierte el objeto a JSON
+    });
+
+    if (!response.ok) {
+      throw new Error("Error en la respuesta del servidor");
+    }
+
+    const resultado = await response.json();
+    console.log("Registro exitoso:", resultado);
+    alert("¡Registro completado con éxito!");
+
+  } catch (error) {
+    console.error("Error al registrar:", error);
+    alert("Hubo un error. Por favor, intenta nuevamente.");
+  }
+}
