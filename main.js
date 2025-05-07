@@ -64,11 +64,11 @@ function ocultarTodos() {
   
     setTimeout(() => {
       if (tieneCondicion) {
-        document.getElementById('step-7a').classList.remove('oculto');
-        pasoActual = '7a';
+        document.getElementById('step-9a').classList.remove('oculto');
+        pasoActual = '9a';
       } else {
-        document.getElementById('step-8').classList.remove('oculto');
-        pasoActual = 8;
+        document.getElementById('step-10').classList.remove('oculto');
+        pasoActual = 10;
       }
     }, 300);
   }
@@ -79,11 +79,28 @@ function ocultarTodos() {
   
     setTimeout(() => {
       if (esCristiano) {
-        document.getElementById('step-9a').classList.remove('oculto');
-        pasoActual = '9a';
+        document.getElementById('step-11a').classList.remove('oculto');
+        pasoActual = '11a';
       } else {
-        document.getElementById('step-10').classList.remove('oculto');
-        pasoActual = 10;
+        document.getElementById('step-12').classList.remove('oculto');
+        pasoActual = 12;
       }
     }, 300);
   }
+
+  function responderMedicamento(medicamento) {
+    const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
+    pasoActualDiv.classList.add('oculto');
+  
+    setTimeout(() => {
+      if (medicamento) {
+        document.getElementById('step-8').classList.remove('oculto');
+        pasoActual = 8;
+      } else {
+        document.getElementById('step-8').classList.remove('oculto');
+        pasoActual = 8;
+      }
+    }, 300);
+  }
+
+  

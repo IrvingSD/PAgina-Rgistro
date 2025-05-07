@@ -55,8 +55,24 @@
             <button onclick="mostrarPaso(6)">Enviar</button>
         </div>
 
-        <!-- Paso 6: Condiciones -->
+        <!-- Paso 6: Localidad -->
         <div class="step oculto" id="step-6">
+            <h1>¿De que localidad nos visitas?</h1>
+            <input type="text" placeholder="Ej. Nonoalco" id="localidad">
+            <button onclick="mostrarPaso(7)">Enviar</button>
+        </div>
+
+        <!-- Paso 7: Medicamento -->
+        <div class="step oculto" id="step-7">
+            <h1>¿Podemos suministrar algun medicamento?<br><p class="subtexto">(En caso de malestar)</p></h1>
+            <div class="opciones">
+                <button onclick="responderMedicamento(true)">Sí</button>
+                <button onclick="responderMedicamento(false)">No</button>
+            </div>
+        </div>
+
+        <!-- Paso 8: Condiciones -->
+        <div class="step oculto" id="step-8">
             <h1>¿Eres alérgico a algo<br>o tienes alguna enfermedad?</h1>
             <div class="opciones">
                 <button onclick="responderCondicion(true)">Sí</button>
@@ -64,15 +80,15 @@
             </div>
         </div>
 
-        <!-- Paso 7a: En caso de responder Sí -->
-        <div class="step oculto" id="step-7a">
+        <!-- Paso 9a: En caso de responder Sí -->
+        <div class="step oculto" id="step-9a">
             <h1>¿A qué eres alérgico<br>o qué enfermedad tienes?</h1>
             <input type="text" placeholder="Descríbelo aquí" id="condicion">
-            <button onclick="mostrarPaso(8)">Siguiente →</button>
+            <button onclick="mostrarPaso(10)">Siguiente →</button>
         </div>
 
-        <!-- Paso 8: Pregunta si es cristiano -->
-        <div class="step oculto" id="step-8">
+        <!-- Paso 10: Pregunta si es cristiano -->
+        <div class="step oculto" id="step-10">
             <h1>¿Eres cristiano?</h1>
             <div class="opciones">
             <button onclick="responderCristiano(true)">Sí</button>
@@ -80,15 +96,15 @@
             </div>
         </div>
 
-        <!-- Paso 9a: ¿A qué iglesia asistes? -->
-        <div class="step oculto" id="step-9a">
+        <!-- Paso 11a: ¿A qué iglesia asistes? -->
+        <div class="step oculto" id="step-11a">
             <h1>¿A qué iglesia asistes?</h1>
             <input type="text" placeholder="Nombre de tu iglesia" id="iglesia">
-            <button onclick="mostrarPaso(10)">Siguiente →</button>
+            <button onclick="mostrarPaso(12)">Siguiente →</button>
         </div>
 
-        <!-- Paso 10: ¿Es tu primera vez en el campamento? -->
-        <div class="step oculto" id="step-10">
+        <!-- Paso 12: ¿Es tu primera vez en el campo? -->
+        <div class="step oculto" id="step-12">
             <h1>¿Es la primera vez que asistes<br>al campo de verano?</h1>
             <div class="opciones">
             <button onclick="finalizar()">Sí</button>
