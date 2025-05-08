@@ -115,7 +115,7 @@ async function finalizar() {
 
   try {
     // --- Envío al backend (versión asíncrona) ---
-    const response = await fetch("https://backend-production-0e41.up.railway.app/registrar", {
+    const response = await fetch("http://localhost:8000/registrar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(datos)
