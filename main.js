@@ -203,26 +203,43 @@ async function finalizar() {
 }
 
 function mostrarResumen() {
-  // Crear el contenido del resumen
-  const resumen = `
-      <strong>Nombre:</strong> ${respuestas.nombre} ${respuestas.apellido}<br>
-      <strong>Edad:</strong> ${respuestas.edad}<br>
-      <strong>Tutor:</strong> ${respuestas.tutor}<br>
-      <strong>Teléfono:</strong> ${respuestas.tel}<br>
-      <strong>Localidad:</strong> ${respuestas.localidad}<br>
-      <strong>¿Puede tomar medicamento?:</strong> ${respuestas.medicamento ? "Sí" : "No"}<br>
-      <strong>¿Tiene condición médica?:</strong> ${respuestas.condicion ? respuestas.condicionDetalle : "No"}<br>
-      <strong>¿Es cristiano?:</strong> ${respuestas.cristiano ? "Sí" : "No"}<br>
-      ${respuestas.cristiano ? `<strong>Iglesia:</strong> ${respuestas.iglesia}<br>` : ""}
-      <strong>¿Es su primera vez?:</strong> ${respuestas.primeraVez ? "Sí" : "No"}<br>
+  // 1. Generar el HTML del resumen
+  const resumenHTML = `
+    <div class="resumen-container">
+      <h2>¡Registro Completo!</h2>
+      <div class="resumen-datos">
+        <p><strong>Nombre:</strong> ${respuestas.nombre} ${respuestas.apellido}</p>
+        <p><strong>Edad:</strong> ${respuestas.edad} años</p>
+        <p><strong>Tutor:</strong> ${respuestas.tutor}</p>
+        <p><strong>Teléfono:</strong> ${formatearTelefono(respuestas.tel)}</p>
+        <p><strong>Localidad:</strong> ${respuestas.localidad}</p>
+        <p><strong>Medicamento autorizado:</strong> ${respuestas.medicamento ? "✅ Sí" : "❌ No"}</p>
+        <p><strong>Condición médica:</strong> ${respuestas.condicion ? "✅ " + respuestas.condicionDetalle : "❌ Ninguna"}</p>
+        <p><strong>Es cristiano:</strong> ${respuestas.cristiano ? "✅ Sí" + (respuestas.iglesia ? ` (${respuestas.iglesia})` : '') : "❌ No"}</p>
+        <p><strong>Primera vez:</strong> ${respuestas.primeraVez ? "✨ Sí" : "🔄 No"}</p>
+      </div>
+    </div>
   `;
+
+  // 2. Insertar en el DOM
+  const resumenElement = document.getElementById('resumen');
+  resumenElement.innerHTML = resumenHTML;
   
-  // Mostrar el resumen en la página (parte faltante)
-  document.getElementById('resumen').innerHTML = resumen;
-  
-  // Transición a la pantalla final
-  document.getElementById(`step-${pasoActual}`).classList.add('oculto');
+  // 3. Mostrar pantalla final (transición)
+  document.querySelector(`#step-${pasoActual}`).classList.add('oculto');
   document.getElementById('final').classList.remove('oculto');
+  
+  // 4. (Opcional) Scroll suave al inicio
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Función auxiliar para formato de teléfono
+function formatearTelefono(tel) {
+  if (!tel) return 'No proporcionado';
+  const nums = tel.replace(/\D/g, '');
+  return nums.length === 10 ? 
+    `${nums.substring(0, 3)}-${nums.substring(3, 6)}-${nums.substring(6)}` : 
+    tel;
 }
 
 // Configuración de eventos después de cargar la página
