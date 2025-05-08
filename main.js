@@ -1,5 +1,3 @@
-const API_URL = "https://backend-production-0e41.up.railway.app";
-
 let pasoActual = 1;
 
 const respuestas = {
@@ -117,7 +115,7 @@ async function finalizar() {
 
   try {
     // --- Envío al backend (versión asíncrona) ---
-    const response = await fetch(`${API_URL}/registrar`, {
+    const response = await fetch("http://localhost:8000/registrar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(datos)
