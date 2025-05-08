@@ -28,10 +28,38 @@ function mostrarPaso(siguientePaso) {
   // Guardar valor según paso
   switch (pasoActual) {
     case 1: respuestas.nombre = input.value.trim(); break;
-    case 2: respuestas.apellido = input.value.trim(); break;
-    case 3: respuestas.edad = input.value.trim(); break;
+    case 2: // Apellido
+      const apellidos = input.value.trim();
+      // Validar que haya al menos dos palabras separadas por espacio
+      if (!/^\S+\s+\S+.*$/.test(apellidos)) {
+        alert("Por favor ingresa al menos dos apellidos separados por espacio");
+        return;
+      }
+      respuestas.apellido = apellidos;
+      break;
+    case 3: // Edad
+      const edad = parseInt(input.value.trim());
+      if (isNaN(edad) || edad < 2 || edad > 25) {
+        alert("Por favor ingresa una edad válida (entre 2 y 25 años)");
+        return;
+      }
+      respuestas.edad = edad;
+      break;
     case 4: respuestas.tutor = input.value.trim(); break;
-    case 5: respuestas.tel = input.value.trim(); break;
+    case 5: // Teléfono
+      const telefono = input.value.trim();
+      // Eliminar cualquier carácter que no sea dígito
+      const soloDigitos = telefono.replace(/\D/g, '');
+      
+      // Validar que sean exactamente 10 dígitos
+      if (soloDigitos.length !== 10) {
+        alert("Por favor ingresa exactamente 10 dígitos (sin guiones ni espacios)");
+        return;
+      }
+      
+      // Formatear como 555-123-4567 antes de guardar
+      respuestas.tel = `${soloDigitos.substring(0, 3)}-${soloDigitos.substring(3, 6)}-${soloDigitos.substring(6)}`;
+      break;
     case 6: respuestas.localidad = input.value.trim(); break;
     case '9a': respuestas.condicionDetalle = input.value.trim(); break;
     case '11a': respuestas.iglesia = input.value.trim(); break;

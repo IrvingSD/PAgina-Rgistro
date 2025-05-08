@@ -29,8 +29,8 @@
 
         <!-- Paso 2: Apellido -->
         <div class="step oculto" id="step-2">
-            <h1>¿Y tu apellido?</h1>
-            <input type="text" placeholder="Apellido(s)" id="apellido">
+            <h1>¿Y tus apellidos?</h1>
+            <input type="text" placeholder="Ej. Perez Martinez" id="apellido">
             <button onclick="mostrarPaso(3)">Siguiente →</button>
         </div>
 
@@ -51,7 +51,7 @@
         <!-- Paso 5: Contacto -->
         <div class="step oculto" id="step-5">
             <h1>Número de Emergencia</h1>
-            <input type="tel" placeholder="Ej. 555-123-4567" id="tel">
+            <input maxlength="10" pattern="\d{10}" oninput="this.value = this.value.replace(/\D/g, '')" type="tel" placeholder="Ej. 5551234567" id="tel">
             <button onclick="mostrarPaso(6)">Enviar</button>
         </div>
 
