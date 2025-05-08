@@ -203,7 +203,7 @@ async function finalizar() {
 }
 
 function mostrarResumen() {
-  // Tu código existente para mostrar el resumen
+  // Crear el contenido del resumen
   const resumen = `
       <strong>Nombre:</strong> ${respuestas.nombre} ${respuestas.apellido}<br>
       <strong>Edad:</strong> ${respuestas.edad}<br>
@@ -215,7 +215,14 @@ function mostrarResumen() {
       <strong>¿Es cristiano?:</strong> ${respuestas.cristiano ? "Sí" : "No"}<br>
       ${respuestas.cristiano ? `<strong>Iglesia:</strong> ${respuestas.iglesia}<br>` : ""}
       <strong>¿Es su primera vez?:</strong> ${respuestas.primeraVez ? "Sí" : "No"}<br>
-    `;
+  `;
+  
+  // Mostrar el resumen en la página (parte faltante)
+  document.getElementById('resumen').innerHTML = resumen;
+  
+  // Transición a la pantalla final
+  document.getElementById(`step-${pasoActual}`).classList.add('oculto');
+  document.getElementById('final').classList.remove('oculto');
 }
 
 // Configuración de eventos después de cargar la página
