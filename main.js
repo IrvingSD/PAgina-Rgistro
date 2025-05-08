@@ -202,6 +202,22 @@ async function finalizar() {
    await enviarDatos();
 }
 
+function mostrarResumen() {
+  // Tu código existente para mostrar el resumen
+  const resumen = `
+      <strong>Nombre:</strong> ${respuestas.nombre} ${respuestas.apellido}<br>
+      <strong>Edad:</strong> ${respuestas.edad}<br>
+      <strong>Tutor:</strong> ${respuestas.tutor}<br>
+      <strong>Teléfono:</strong> ${respuestas.tel}<br>
+      <strong>Localidad:</strong> ${respuestas.localidad}<br>
+      <strong>¿Puede tomar medicamento?:</strong> ${respuestas.medicamento ? "Sí" : "No"}<br>
+      <strong>¿Tiene condición médica?:</strong> ${respuestas.condicion ? respuestas.condicionDetalle : "No"}<br>
+      <strong>¿Es cristiano?:</strong> ${respuestas.cristiano ? "Sí" : "No"}<br>
+      ${respuestas.cristiano ? `<strong>Iglesia:</strong> ${respuestas.iglesia}<br>` : ""}
+      <strong>¿Es su primera vez?:</strong> ${respuestas.primeraVez ? "Sí" : "No"}<br>
+    `;
+}
+
 // Configuración de eventos después de cargar la página
 document.addEventListener('DOMContentLoaded', function() {
   // 1. Enter para avanzar en todos los inputs
