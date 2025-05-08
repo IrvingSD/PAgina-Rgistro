@@ -122,67 +122,84 @@ function responderPrimeraVez(valor) {
 }
 
 async function finalizar() {
-  // Deshabilitar el botón para evitar múltiples clics
-  const botones = document.querySelectorAll(`#step-${pasoActual} button`);
-  botones.forEach(boton => {
-      boton.disabled = true;
-      boton.textContent = 'Enviando...';
-  });
+  const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
+  const botones = pasoActualDiv.querySelectorAll('button');
+  let intentos = 0;
+  const MAX_INTENTOS = 3;
 
-  try {
-      // --- Validación ---
-      const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
-      const input = pasoActualDiv.querySelector('input');
-      
-      if (input && input.value.trim() === "") {
-          throw new Error("Por favor, llena el campo antes de continuar.");
-      }
+  const enviarDatos = async () => {
+      intentos++;
+      try {
+          // Estado de carga
+          botones.forEach(boton => {
+              boton.disabled = true;
+              boton.innerHTML = intentos > 1 ? 
+                  `⌛ Intentando nuevamente (${intentos}/${MAX_INTENTOS})` : 
+                  '⌛ Enviando...';
+          });
 
-      // --- Preparar datos ---
-      const datos = {
-          nombre: respuestas.nombre,
-          apellido: respuestas.apellido,
-          edad: parseInt(respuestas.edad),
-          tutor: respuestas.tutor,
-          telefono: respuestas.tel,
-          localidad: respuestas.localidad,
-          medicamento: respuestas.medicamento,
-          condicion: respuestas.condicion ? respuestas.condicionDetalle : "Ninguna",
-          cristiano: respuestas.cristiano,
-          iglesia: respuestas.iglesia || "No aplica",
-          primeraVez: respuestas.primeraVez
-      };
+          // Validación (tu código existente)
+          if (pasoActualDiv.querySelector('input')?.value.trim() === "") {
+              throw new Error("Por favor completa el campo");
+          }
+          
+        // --- Preparar datos ---
+          const datos = {
+              nombre: respuestas.nombre,
+              apellido: respuestas.apellido,
+              edad: parseInt(respuestas.edad),
+              tutor: respuestas.tutor,
+              telefono: respuestas.tel,
+              localidad: respuestas.localidad,
+              medicamento: respuestas.medicamento,
+              condicion: respuestas.condicion ? respuestas.condicionDetalle : "Ninguna",
+              cristiano: respuestas.cristiano,
+              iglesia: respuestas.iglesia || "No aplica",
+              primeraVez: respuestas.primeraVez
+          };
 
-      // --- Envío al backend ---
-      const response = await fetch("https://backend-production-0e41.up.railway.app/registrar", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(datos)
-      });
+           // Intento de envío con timeout
+           const controller = new AbortController();
+           const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 segundos
 
-      if (!response.ok) throw new Error("Error en el servidor");
+           const response = await fetch("https://backend-production-0e41.up.railway.app/registrar", {
+               method: "POST",
+               headers: { "Content-Type": "application/json" },
+               body: JSON.stringify(datos),
+               signal: controller.signal
+           });
 
-      // --- Mostrar resumen ---
-      const resumen = `
-          <strong>Nombre:</strong> ${respuestas.nombre} ${respuestas.apellido}<br>
-          <strong>Edad:</strong> ${respuestas.edad}<br>
-          <!-- resto del resumen... -->
-      `;
+           clearTimeout(timeoutId);
 
-      pasoActualDiv.classList.add('oculto');
-      document.getElementById('resumen').innerHTML = resumen;
-      document.getElementById('final').classList.remove('oculto');
+           if (!response.ok) {
+               const error = await response.json().catch(() => ({}));
+               throw new Error(error.message || "Error en el servidor");
+           }
 
-  } catch (error) {
-      console.error("Error al registrar:", error);
-      alert(error.message || "Hubo un error. Por favor intenta nuevamente.");
-      
-      // Rehabilitar botones
-      botones.forEach(boton => {
-          boton.disabled = false;
-          boton.textContent = pasoActual === 12 ? 'Enviar' : 'Siguiente →';
-      });
-  }
+           // Éxito - mostrar resumen
+           mostrarResumen();
+           
+       } catch (error) {
+           console.error(`Intento ${intentos} fallido:`, error);
+           
+           if (intentos < MAX_INTENTOS) {
+               // Reintentar automáticamente después de un delay
+               await new Promise(resolve => setTimeout(resolve, 1000 * intentos));
+               return enviarDatos();
+           }
+           
+           // Mostrar error final después de todos los intentos
+           botones.forEach(boton => {
+               boton.disabled = false;
+               boton.textContent = pasoActual === 12 ? 'Enviar' : 'Siguiente →';
+           });
+           
+           alert(`No se pudo enviar después de ${MAX_INTENTOS} intentos. Por favor verifica tu conexión e intenta nuevamente.`);
+       }
+   };
+
+   // Iniciar el proceso
+   await enviarDatos();
 }
 
 // Configuración de eventos después de cargar la página
