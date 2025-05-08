@@ -30,12 +30,17 @@ function mostrarPaso(siguientePaso) {
     case 1: respuestas.nombre = input.value.trim(); break;
     case 2: // Apellido
       const apellidos = input.value.trim();
-      // Validar que haya al menos dos palabras separadas por espacio
-      if (!/^\S+\s+\S+.*$/.test(apellidos)) {
-        alert("Por favor ingresa al menos dos apellidos separados por espacio");
+      
+      // Expresión regular que permite:
+      // - Apellidos compuestos (palabras con espacios, "de", "del", etc.)
+      // - Pero asegura que haya al menos dos bloques de apellidos
+      if (!/(^|\s)([^\s]+\s+){1,}[^\s]+$/.test(apellidos) || 
+          apellidos.split(/\s+/).filter(Boolean).length < 2) {
+        alert("Por favor ingresa al menos dos apellidos\nEjemplos:\n- González López\n- Martínez de la Rosa\n- Del Valle Sánchez");
         return;
       }
-      respuestas.apellido = apellidos;
+      
+      respuestas.apellido = apellidos.replace(/\s+/g, ' ').trim(); // Normaliza espacios
       break;
     case 3: // Edad
       const edad = parseInt(input.value.trim());
