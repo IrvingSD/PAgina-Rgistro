@@ -182,3 +182,35 @@ async function finalizar() {
     alert("Hubo un error. Por favor, revisa la consola.");
   }
 }
+
+// Configuración de eventos después de cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+  // 1. Enter para avanzar en todos los inputs
+  document.querySelectorAll('.step input').forEach(input => {
+      input.addEventListener('keydown', function(event) {
+          if (event.key === 'Enter') {
+              event.preventDefault();
+              const nextButton = this.closest('.step').querySelector('button');
+              if (nextButton) nextButton.click();
+          }
+      });
+  });
+  
+  // 2. Auto-focus al mostrar un paso
+  const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+          if (mutation.attributeName === 'class') {
+              const step = mutation.target;
+              if (!step.classList.contains('oculto')) {
+                  const input = step.querySelector('input');
+                  if (input) input.focus();
+              }
+          }
+      });
+  });
+  
+  // Observar todos los pasos
+  document.querySelectorAll('.step').forEach(step => {
+      observer.observe(step, { attributes: true });
+  });
+});
