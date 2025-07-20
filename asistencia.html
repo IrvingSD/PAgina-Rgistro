@@ -18,16 +18,18 @@
 
     <!-- Formulario compartido -->
     <div class="step oculto" id="formulario-asistencia">
+        
+        <h1 id="titulo-tipo">Pasar asistencia</h1>
+        <input type="text" id="busqueda" placeholder="Buscar por nombre o apellido" oninput="buscarCoincidencias()" style="margin-bottom: -15px;">
+        <ul id="resultados" style="list-style:none; padding:0; color:white;"></ul>
+        <button id="btn-confirmar" onclick="confirmarAsistencia()" disabled>Confirmar asistencia</button>
         <button id="btn-cambiar" onclick="reiniciarTipo()" style="margin-bottom: 20px;">
         Cambiar a otro tipo
         </button>
-        <h1 id="titulo-tipo">Pasar asistencia</h1>
-        <input type="text" id="busqueda" placeholder="Buscar por nombre o apellido" oninput="buscarCoincidencias()">
-        <ul id="resultados" style="list-style:none; padding:0; color:white;"></ul>
-        <button id="btn-confirmar" onclick="confirmarAsistencia()" disabled>Confirmar asistencia</button>
         <p id="mensaje" style="color:white; font-size:1.2rem; margin-top:20px;"></p>
     </div>
   </div>
+  
 
   <script>
     let tipoSeleccionado = null;

@@ -85,6 +85,23 @@ async function confirmarAsistencia() {
   }
 }
 
+function nuevoRegistro() {
+  // Reiniciar variables
+  pasoActual = 1;
+  tipoRegistro = null;
+
+  // Limpiar respuestas
+  for (const key in respuestas) respuestas[key] = key === "medicamento" || key === "cristiano" || key === "primeraVez" ? null : "";
+  respuestas.condicionDetalle = "";
+
+  // Reset visual
+  document.getElementById('final').classList.add('oculto');
+  document.getElementById('step-inicio').classList.remove('oculto');
+  document.getElementById('resumen').innerHTML = "";
+
+  // Reset inputs visibles si fuera necesario
+  document.querySelectorAll('.step input').forEach(input => input.value = "");
+}
 
 
 
