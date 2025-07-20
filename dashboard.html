@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Resumen de Asistencias</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .info-box {
+      background-color: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      color: white;
+      font-size: 1.4rem;
+      text-align: center;
+    }
+
+    .rango {
+      font-size: 1.2rem;
+      margin: 5px 0;
+    }
+
+    .grupo-container {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="step" id="dashboard">
+      <h1>📊 Asistencias de Hoy</h1>
+
+      <div id="info" style="width: 100%;">
+        <div class="info-box" id="total-asistencias">Total: ...</div>
+        <div class="info-box" id="servidores">Servidores: ...</div>
+
+        <div class="info-box grupo-container">
+          <h2 style="margin-bottom:10px;">Niños por edad:</h2>
+          <div id="rango-lista"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    async function cargarResumen() {
+      try {
+        const res = await fetch("https://backend-production-0e41.up.railway.app/asistencias_hoy");
+        const data = await res.json();
+
+        document.getElementById("total-asistencias").textContent = `👥 Total de asistencias: ${data.total_asistencias}`;
+        document.getElementById("servidores").textContent = `🙋‍♂️ Servidores: ${data.servidores}`;
+
+        const rangoLista = document.getElementById("rango-lista");
+        rangoLista.innerHTML = "";
+
+        for (const [rango, cantidad] of Object.entries(data.niños_por_rango)) {
+          const div = document.createElement("div");
+          div.className = "rango";
+          div.textContent = `🧒 ${rango} años: ${cantidad}`;
+          rangoLista.appendChild(div);
+        }
+
+      } catch (e) {
+        document.getElementById("info").innerHTML = "<p style='color:white;'>❌ Error al cargar el resumen</p>";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarResumen);
+  </script>
+</body>
+</html>
