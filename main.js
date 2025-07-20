@@ -102,6 +102,41 @@ function mostrarPaso(siguientePaso) {
   pasoActual = siguientePaso;
 }
 
+function mostrarPasoServidor(siguientePaso) {
+  const pasoDiv = document.getElementById(`step-${pasoActual}`);
+  const input = pasoDiv.querySelector('input');
+
+  if (!input || input.value.trim() === "") {
+    alert("Por favor completa este campo.");
+    return;
+  }
+
+  switch (pasoActual) {
+    case 's1': respuestasServidor.nombre = input.value.trim(); break;
+    case 's2': respuestasServidor.apellido = input.value.trim(); break;
+  }
+
+  pasoDiv.classList.add('oculto');
+  setTimeout(() => {
+    document.getElementById(`step-${siguientePaso}`).classList.remove('oculto');
+    pasoActual = siguientePaso;
+  }, 300);
+}
+
+function responderCristianoServidor(valor) {
+  respuestasServidor.cristiano = valor;
+  document.getElementById(`step-${pasoActual}`).classList.add('oculto');
+  setTimeout(() => {
+    if (valor) {
+      document.getElementById('step-s4').classList.remove('oculto');
+      pasoActual = 's4';
+    } else {
+      finalizarServidor(null); // no es cristiano, iglesia_nuestra no aplica
+    }
+  }, 300);
+}
+
+
 function responderMedicamento(valor) {
   respuestas.medicamento = valor;
   document.getElementById(`step-${pasoActual}`).classList.add('oculto');
@@ -224,6 +259,42 @@ async function finalizar() {
    // Iniciar el proceso
    await enviarDatos();
 }
+
+async function finalizarServidor(iglesia_nuestra) {
+  respuestasServidor.iglesia_nuestra = iglesia_nuestra;
+
+  const datos = {
+    nombre: respuestasServidor.nombre,
+    apellido: respuestasServidor.apellido,
+    cristiano: respuestasServidor.cristiano,
+    iglesia_nuestra: respuestasServidor.iglesia_nuestra
+  };
+
+  try {
+    const response = await fetch("https://backend-production-0e41.up.railway.app/registrar_servidor", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(datos)
+    });
+
+    if (!response.ok) throw new Error("Error al registrar servidor");
+
+    // Mostrar final
+    document.getElementById(`step-${pasoActual}`).classList.add('oculto');
+    document.getElementById('final').classList.remove('oculto');
+    document.getElementById('resumen').innerHTML = `
+      <h2>¡Servidor registrado!</h2>
+      <p><strong>Nombre:</strong> ${datos.nombre} ${datos.apellido}</p>
+      <p><strong>Es cristiano:</strong> ${datos.cristiano ? "Sí" : "No"}</p>
+      ${datos.cristiano ? `<p><strong>¿De nuestra iglesia?:</strong> ${datos.iglesia_nuestra ? "Sí" : "No"}</p>` : ""}
+    `;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (e) {
+    alert("Error al registrar. Intenta de nuevo.");
+  }
+}
+
 
 function mostrarResumen() {
   // 1. Generar el HTML del resumen
