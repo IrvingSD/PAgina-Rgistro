@@ -86,6 +86,18 @@ async function confirmarAsistencia() {
 }
 
 
+function reiniciarTipo() {
+  tipoSeleccionado = null;
+  seleccionado = null;
+
+  document.getElementById('formulario-asistencia').classList.add('oculto');
+  document.getElementById('resultados').innerHTML = "";
+  document.getElementById('busqueda').value = "";
+  document.getElementById('mensaje').textContent = "";
+  document.getElementById('btn-confirmar').disabled = true;
+
+  document.getElementById('seleccion-tipo').classList.remove('oculto');
+}
 
 
 function iniciarFlujo(tipo) {
