@@ -39,11 +39,11 @@
 
         data.forEach(niño => {
           const li = document.createElement('li');
-          li.textContent = `${niño.nombre} ${niño.apellido}`;
+          li.textContent = `${niño.nombre} ${niño.apellido} (${niño.edad} años)`;
           li.style.cursor = "pointer";
           li.onclick = () => {
             seleccionado = niño;
-            resultados.innerHTML = `<li><strong>✅ ${niño.nombre} ${niño.apellido}</strong></li>`;
+            resultados.innerHTML = `<li><strong>✅ ${niño.nombre} ${niño.apellido} (${niño.edad} años)</strong></li>`;
             boton.disabled = false;
           };
           resultados.appendChild(li);
