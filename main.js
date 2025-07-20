@@ -1,5 +1,6 @@
 let tipoRegistro = null;
 let pasoActual = 1;
+let seleccionado = null;
 
 const respuestas = {
   nombre: "",
@@ -22,6 +23,70 @@ const respuestasServidor = {
   cristiano: null,
   iglesia_nuestra: null
 };
+
+async function buscarCoincidencias() {
+  const query = document.getElementById('busqueda').value.trim();
+  const resultados = document.getElementById('resultados');
+  const boton = document.getElementById('btn-confirmar');
+  const mensaje = document.getElementById('mensaje');
+
+  resultados.innerHTML = "";
+  seleccionado = null;
+  boton.disabled = true;
+  mensaje.textContent = "";
+
+  if (query.length < 2) return;
+
+  try {
+    const response = await fetch(`https://backend-production-0e41.up.railway.app/buscar_coincidencias?q=${encodeURIComponent(query)}`);
+    const data = await response.json();
+
+    data.forEach(niño => {
+      const li = document.createElement('li');
+      li.textContent = `${niño.nombre} ${niño.apellido}`;
+      li.style.cursor = "pointer";
+      li.onclick = () => {
+        seleccionado = niño;
+        resultados.innerHTML = `<li><strong>✅ ${niño.nombre} ${niño.apellido}</strong></li>`;
+        boton.disabled = false;
+      };
+      resultados.appendChild(li);
+    });
+
+  } catch (e) {
+    resultados.innerHTML = "<li>Error al buscar</li>";
+  }
+}
+
+async function confirmarAsistencia() {
+  if (!seleccionado) return;
+  const mensaje = document.getElementById('mensaje');
+  mensaje.textContent = "⌛ Registrando asistencia...";
+
+  try {
+    const response = await fetch("https://backend-production-0e41.up.railway.app/registrar_asistencia", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre: seleccionado.nombre, apellido: seleccionado.apellido })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      mensaje.textContent = data.repetido
+        ? "⚠️ Ya se había registrado asistencia hoy."
+        : "✅ Asistencia registrada con éxito.";
+    } else {
+      mensaje.textContent = `❌ ${data.detail || "Error al registrar"}`;
+    }
+
+  } catch (err) {
+    mensaje.textContent = "❌ Error de conexión.";
+  }
+}
+
+
+
 
 function iniciarFlujo(tipo) {
   tipoRegistro = tipo;

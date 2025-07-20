@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Asistencia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="step" id="asistencia-form">
+      <h1>Pasar asistencia</h1>
+    <input type="text" id="busqueda" placeholder="Buscar por nombre o apellido" oninput="buscarCoincidencias()">
+    <ul id="resultados" style="list-style:none; padding:0; color:white;"></ul>
+    <button id="btn-confirmar" onclick="confirmarAsistencia()" disabled>Confirmar asistencia</button>
+    <p id="mensaje" style="color:white; font-size:1.2rem; margin-top:20px;"></p>
+    </div>
+  </div>
+
+  <script>
+    async function registrarAsistencia() {
+      const nombre = document.getElementById('nombre').value.trim();
+      const apellido = document.getElementById('apellido').value.trim();
+      const mensaje = document.getElementById('mensaje');
+
+      if (!nombre || !apellido) {
+        mensaje.textContent = "Por favor escribe nombre y apellido.";
+        return;
+      }
+
+      mensaje.textContent = "⌛ Registrando asistencia...";
+
+      try {
+        const response = await fetch("https://backend-production-0e41.up.railway.app/registrar_asistencia", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nombre, apellido })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          mensaje.textContent = data.repetido
+            ? "⚠️ Ya se había registrado asistencia hoy."
+            : "✅ Asistencia registrada con éxito.";
+        } else {
+          mensaje.textContent = `❌ ${data.detail || "Error al registrar"}`;
+        }
+
+      } catch (err) {
+        mensaje.textContent = "❌ Error de conexión. Intenta de nuevo.";
+      }
+    }
+  </script>
+</body>
+</html>
