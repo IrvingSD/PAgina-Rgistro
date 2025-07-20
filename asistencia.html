@@ -2,14 +2,23 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Asistencia</title>
+  <title>Pasar Asistencia</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <div class="step" id="asistencia-form">
-      <h1>Pasar asistencia</h1>
+    <div class="step" id="seleccion-tipo">
+      <h1>Asistencias</h1>
+      <div class="opciones">
+        <button onclick="elegirTipo('niño')">Niño</button>
+        <button onclick="elegirTipo('servidor')">Servidor</button>
+      </div>
+    </div>
+
+    <!-- Formulario compartido -->
+    <div class="step oculto" id="formulario-asistencia">
+      <h1 id="titulo-tipo">Pasar asistencia</h1>
       <input type="text" id="busqueda" placeholder="Buscar por nombre o apellido" oninput="buscarCoincidencias()">
       <ul id="resultados" style="list-style:none; padding:0; color:white;"></ul>
       <button id="btn-confirmar" onclick="confirmarAsistencia()" disabled>Confirmar asistencia</button>
@@ -18,7 +27,16 @@
   </div>
 
   <script>
+    let tipoSeleccionado = null;
     let seleccionado = null;
+
+    function elegirTipo(tipo) {
+      tipoSeleccionado = tipo;
+      document.getElementById('seleccion-tipo').classList.add('oculto');
+      document.getElementById('formulario-asistencia').classList.remove('oculto');
+      document.getElementById('titulo-tipo').textContent =
+        tipo === 'niño' ? "Pasar asistencia de niño" : "Pasar asistencia de servidor";
+    }
 
     async function buscarCoincidencias() {
       const query = document.getElementById('busqueda').value.trim();
@@ -33,17 +51,22 @@
 
       if (query.length < 2) return;
 
+      const endpoint = tipoSeleccionado === 'niño'
+        ? 'https://backend-production-0e41.up.railway.app/buscar_coincidencias'
+        : 'https://backend-production-0e41.up.railway.app/buscar_coincidencias_servidor';
+
       try {
-        const response = await fetch(`https://backend-production-0e41.up.railway.app/buscar_coincidencias?q=${encodeURIComponent(query)}`);
+        const response = await fetch(`${endpoint}?q=${encodeURIComponent(query)}`);
         const data = await response.json();
 
-        data.forEach(niño => {
+        data.forEach(persona => {
           const li = document.createElement('li');
-          li.textContent = `${niño.nombre} ${niño.apellido} (${niño.edad} años)`;
+          const edadTexto = persona.edad ? ` (${persona.edad} años)` : '';
+          li.textContent = `${persona.nombre} ${persona.apellido}${edadTexto}`;
           li.style.cursor = "pointer";
           li.onclick = () => {
-            seleccionado = niño;
-            resultados.innerHTML = `<li><strong>✅ ${niño.nombre} ${niño.apellido} (${niño.edad} años)</strong></li>`;
+            seleccionado = persona;
+            resultados.innerHTML = `<li><strong>✅ ${persona.nombre} ${persona.apellido}${edadTexto}</strong></li>`;
             boton.disabled = false;
           };
           resultados.appendChild(li);
@@ -56,14 +79,22 @@
 
     async function confirmarAsistencia() {
       if (!seleccionado) return;
+
       const mensaje = document.getElementById('mensaje');
       mensaje.textContent = "⌛ Registrando asistencia...";
 
+      const endpoint = tipoSeleccionado === 'niño'
+        ? 'https://backend-production-0e41.up.railway.app/registrar_asistencia'
+        : 'https://backend-production-0e41.up.railway.app/registrar_asistencia_servidor';
+
       try {
-        const response = await fetch("https://backend-production-0e41.up.railway.app/registrar_asistencia", {
+        const response = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nombre: seleccionado.nombre, apellido: seleccionado.apellido })
+          body: JSON.stringify({
+            nombre: seleccionado.nombre,
+            apellido: seleccionado.apellido
+          })
         });
 
         const data = await response.json();
