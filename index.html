@@ -20,8 +20,16 @@
 <body>
     <div class="container">
 
+        <div class="step" id="step-inicio">
+            <h1>¿Qué deseas registrar?</h1>
+            <div class="opciones">
+                <button onclick="iniciarFlujo('niño')">Niño</button>
+                <button onclick="iniciarFlujo('servidor')">Servidor</button>
+            </div>
+        </div>
+
         <!-- Paso 1: Nombre -->
-        <div class="step" id="step-1">
+        <div class="step oculto" id="step-1">
             <h1>¡Hola!<br>¿Cómo te llamas?</h1>
             <input type="text" placeholder="Nombre(s)" id="nombre">
             <button onclick="mostrarPaso(2)">Siguiente →</button>
@@ -112,6 +120,40 @@
             </div>
         </div>
 
+
+                <!-- Paso s1: Nombre -->
+        <div class="step oculto" id="step-s1">
+        <h1>¿Cuál es tu nombre?</h1>
+        <input type="text" id="s-nombre" placeholder="Nombre(s)">
+        <button onclick="mostrarPasoServidor('s2')">Siguiente →</button>
+        </div>
+
+        <!-- Paso s2: Apellido -->
+        <div class="step oculto" id="step-s2">
+        <h1>¿Y tus apellidos?</h1>
+        <input type="text" id="s-apellido" placeholder="Ej. Pérez López">
+        <button onclick="mostrarPasoServidor('s3')">Siguiente →</button>
+        </div>
+
+        <!-- Paso s3: ¿Es cristiano? -->
+        <div class="step oculto" id="step-s3">
+        <h1>¿Eres cristiano?</h1>
+        <div class="opciones">
+            <button onclick="responderCristianoServidor(true)">Sí</button>
+            <button onclick="responderCristianoServidor(false)">No</button>
+        </div>
+        </div>
+
+        <!-- Paso s4: ¿Es de nuestra iglesia? -->
+        <div class="step oculto" id="step-s4">
+        <h1>¿Eres de nuestra iglesia?</h1>
+        <div class="opciones">
+            <button onclick="finalizarServidor(true)">Sí</button>
+            <button onclick="finalizarServidor(false)">No</button>
+        </div>
+        </div>
+
+
         <!-- Pantalla final -->
         <div class="step oculto" id="final">
             <h1>¡Listo!</h1>
@@ -119,6 +161,8 @@
         </div>
 
     </div>
+
+    
 
     <script src="main.js"></script>
 </body>

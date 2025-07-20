@@ -1,3 +1,4 @@
+let tipoRegistro = null;
 let pasoActual = 1;
 
 const respuestas = {
@@ -14,6 +15,28 @@ const respuestas = {
   iglesia: "",
   primeraVez: null
 };
+
+const respuestasServidor = {
+  nombre: "",
+  apellido: "",
+  cristiano: null,
+  iglesia_nuestra: null
+};
+
+function iniciarFlujo(tipo) {
+  tipoRegistro = tipo;
+  document.getElementById('step-inicio').classList.add('oculto');
+
+  setTimeout(() => {
+    if (tipo === 'niño') {
+      document.getElementById('step-1').classList.remove('oculto');
+      pasoActual = 1;
+    } else {
+      document.getElementById('step-s1').classList.remove('oculto');
+      pasoActual = 's1';
+    }
+  }, 300);
+}
 
 function mostrarPaso(siguientePaso) {
   const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
