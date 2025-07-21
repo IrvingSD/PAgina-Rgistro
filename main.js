@@ -258,8 +258,18 @@ function responderCristiano(esCristiano) {
 
 function responderPrimeraVez(valor) {
   respuestas.primeraVez = valor;
-  finalizar();
+
+  const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
+  pasoActualDiv.classList.add('oculto');
+
+  setTimeout(() => {
+    document.getElementById('final').classList.remove('oculto');
+    pasoActual = 'final';
+    mostrarResumen();
+    finalizar();
+  }, 300);
 }
+
 
 async function finalizar() {
   const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
