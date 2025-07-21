@@ -258,18 +258,8 @@ function responderCristiano(esCristiano) {
 
 function responderPrimeraVez(valor) {
   respuestas.primeraVez = valor;
-
-  const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
-  pasoActualDiv.classList.add('oculto');
-
-  setTimeout(() => {
-    document.getElementById('final').classList.remove('oculto');
-    pasoActual = 'final';
-    mostrarResumen();
-    finalizar();
-  }, 300);
+  finalizar();
 }
-
 
 async function finalizar() {
   const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
@@ -313,8 +303,6 @@ async function finalizar() {
            const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 segundos
 
            const response = await fetch("https://backend-production-0e41.up.railway.app/registrar", {
-            console.log("Enviando:", datos);
-
                method: "POST",
                headers: { "Content-Type": "application/json" },
                body: JSON.stringify(datos),
