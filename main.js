@@ -313,6 +313,8 @@ async function finalizar() {
            const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 segundos
 
            const response = await fetch("https://backend-production-0e41.up.railway.app/registrar", {
+            console.log("Enviando:", datos);
+
                method: "POST",
                headers: { "Content-Type": "application/json" },
                body: JSON.stringify(datos),
