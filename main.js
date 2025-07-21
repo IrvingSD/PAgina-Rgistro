@@ -258,8 +258,18 @@ function responderCristiano(esCristiano) {
 
 function responderPrimeraVez(valor) {
   respuestas.primeraVez = valor;
-  finalizar();
+
+  const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
+  pasoActualDiv.classList.add('oculto');
+
+  setTimeout(() => {
+    pasoActual = 'final';  // importante para evitar errores de flujo
+    mostrarResumen();
+    document.getElementById('final').classList.remove('oculto');
+    finalizar();
+  }, 300);
 }
+
 
 async function finalizar() {
   const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
@@ -379,7 +389,6 @@ async function finalizarServidor(iglesia_nuestra) {
 
 
 function mostrarResumen() {
-  // 1. Generar el HTML del resumen
   const resumenHTML = `
     <div class="resumen-container">
       <h2>¡Registro Completo!</h2>
@@ -397,17 +406,10 @@ function mostrarResumen() {
     </div>
   `;
 
-  // 2. Insertar en el DOM
-  const resumenElement = document.getElementById('resumen');
-  resumenElement.innerHTML = resumenHTML;
-  
-  // 3. Mostrar pantalla final (transición)
-  document.querySelector(`#step-${pasoActual}`).classList.add('oculto');
-  document.getElementById('final').classList.remove('oculto');
-  
-  // 4. (Opcional) Scroll suave al inicio
+  document.getElementById('resumen').innerHTML = resumenHTML;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
 
 // Función auxiliar para formato de teléfono
 function formatearTelefono(tel) {
