@@ -258,32 +258,7 @@ function responderCristiano(esCristiano) {
 
 function responderPrimeraVez(valor) {
   respuestas.primeraVez = valor;
-
-  // Validación segura: ¿tenemos todos los campos clave antes de enviar?
-  if (
-    !respuestas.nombre ||
-    !respuestas.apellido ||
-    !respuestas.edad ||
-    !respuestas.tutor ||
-    !respuestas.tel ||
-    !respuestas.localidad ||
-    respuestas.medicamento === null ||
-    respuestas.cristiano === null ||
-    respuestas.primeraVez === null
-  ) {
-    alert("Faltan campos requeridos antes de finalizar el registro.");
-    return;
-  }
-
-  const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
-  pasoActualDiv.classList.add('oculto');
-
-  setTimeout(() => {
-    mostrarResumen();
-    document.getElementById('final').classList.remove('oculto');
-    pasoActual = 'final';
-    finalizar(); // <-- ahora sí, todos los datos están seguros
-  }, 300);
+  finalizar();
 }
 
 async function finalizar() {
