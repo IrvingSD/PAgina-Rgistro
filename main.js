@@ -258,16 +258,7 @@ function responderCristiano(esCristiano) {
 
 function responderPrimeraVez(valor) {
   respuestas.primeraVez = valor;
-
-  const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
-  pasoActualDiv.classList.add('oculto');
-
-  setTimeout(() => {
-    mostrarResumen();
-    document.getElementById('final').classList.remove('oculto');
-    pasoActual = 'final';
-    finalizar(); // ← Esto ya funciona correctamente con la validación arreglada
-  }, 300);
+  finalizar();
 }
 
 async function finalizar() {
@@ -288,12 +279,9 @@ async function finalizar() {
           });
 
           // Validación (tu código existente)
-          if (pasoActualDiv.querySelector('input')) {
-  const input = pasoActualDiv.querySelector('input');
-  if (input && input.value.trim() === "") {
-    throw new Error("Por favor completa el campo");
-  }
-}
+          if (pasoActualDiv.querySelector('input')?.value.trim() === "") {
+              throw new Error("Por favor completa el campo");
+          }
           
         // --- Preparar datos ---
           const datos = {
