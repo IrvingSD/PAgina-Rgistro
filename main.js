@@ -245,16 +245,28 @@ function responderCondicion(tieneCondicion) {
 function responderCristiano(esCristiano) {
   respuestas.cristiano = esCristiano;
   document.getElementById(`step-${pasoActual}`).classList.add('oculto');
+
   setTimeout(() => {
     if (esCristiano) {
       document.getElementById('step-11a').classList.remove('oculto');
       pasoActual = '11a';
     } else {
-      document.getElementById('step-12').classList.remove('oculto');
+      const paso = document.getElementById('step-12');
+      paso.classList.remove('oculto');
       pasoActual = 12;
+
+      // 🛡️ Asegura que los botones se agregan dinámicamente (previene clics fantasma)
+      paso.innerHTML = `
+        <h1>¿Es la primera vez que asistes<br>al campo de verano?</h1>
+        <div class="opciones">
+          <button onclick="responderPrimeraVez(true)">Sí</button>
+          <button onclick="responderPrimeraVez(false)">No</button>
+        </div>
+      `;
     }
   }, 300);
 }
+
 
 function responderPrimeraVez(valor) {
   respuestas.primeraVez = valor;
