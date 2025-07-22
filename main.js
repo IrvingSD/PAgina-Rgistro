@@ -258,89 +258,104 @@ function responderCristiano(esCristiano) {
 
 function responderPrimeraVez(valor) {
   respuestas.primeraVez = valor;
+
+  // Desactiva botones para evitar doble clic
+  const botones = document.querySelectorAll(`#step-${pasoActual} button`);
+  botones.forEach(btn => {
+    btn.disabled = true;
+    btn.textContent = "⌛ Enviando...";
+  });
+
   finalizar();
 }
 
 async function finalizar() {
   const pasoActualDiv = document.getElementById(`step-${pasoActual}`);
+
+  // 🔒 Prevención: no continuar si el paso actual no está visible
+  if (!pasoActualDiv || pasoActualDiv.classList.contains('oculto')) {
+    console.warn("Paso actual inactivo, se cancela el envío.");
+    return;
+  }
+
   const botones = pasoActualDiv.querySelectorAll('button');
   let intentos = 0;
   const MAX_INTENTOS = 3;
 
   const enviarDatos = async () => {
-      intentos++;
-      try {
-          // Estado de carga
-          botones.forEach(boton => {
-              boton.disabled = true;
-              boton.innerHTML = intentos > 1 ? 
-                  `⌛ Intentando nuevamente (${intentos}/${MAX_INTENTOS})` : 
-                  '⌛ Enviando...';
-          });
+    intentos++;
+    try {
+      // Estado de carga en los botones
+      botones.forEach(boton => {
+        boton.disabled = true;
+        boton.innerHTML = intentos > 1
+          ? `⌛ Intentando nuevamente (${intentos}/${MAX_INTENTOS})`
+          : '⌛ Enviando...';
+      });
 
-          // Validación (tu código existente)
-          if (pasoActualDiv.querySelector('input')?.value.trim() === "") {
-              throw new Error("Por favor completa el campo");
-          }
-          
-        // --- Preparar datos ---
-          const datos = {
-              nombre: respuestas.nombre,
-              apellido: respuestas.apellido,
-              edad: parseInt(respuestas.edad),
-              tutor: respuestas.tutor,
-              telefono: respuestas.tel,
-              localidad: respuestas.localidad,
-              medicamento: respuestas.medicamento,
-              condicion: respuestas.condicion ? respuestas.condicionDetalle : "Ninguna",
-              cristiano: respuestas.cristiano,
-              iglesia: respuestas.iglesia || "No aplica",
-              primeraVez: respuestas.primeraVez
-          };
+      // Validación básica
+      if (pasoActualDiv.querySelector('input')?.value.trim() === "") {
+        throw new Error("Por favor completa el campo");
+      }
 
-           // Intento de envío con timeout
-           const controller = new AbortController();
-           const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 segundos
+      // Preparar datos
+      const datos = {
+        nombre: respuestas.nombre,
+        apellido: respuestas.apellido,
+        edad: parseInt(respuestas.edad),
+        tutor: respuestas.tutor,
+        telefono: respuestas.tel,
+        localidad: respuestas.localidad,
+        medicamento: respuestas.medicamento,
+        condicion: respuestas.condicion ? respuestas.condicionDetalle : "Ninguna",
+        cristiano: respuestas.cristiano,
+        iglesia: respuestas.iglesia || "No aplica",
+        primeraVez: respuestas.primeraVez
+      };
 
-           const response = await fetch("https://backend-production-0e41.up.railway.app/registrar", {
-               method: "POST",
-               headers: { "Content-Type": "application/json" },
-               body: JSON.stringify(datos),
-               signal: controller.signal
-           });
+      // Enviar con timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s
+      const response = await fetch("https://backend-production-0e41.up.railway.app/registrar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datos),
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
 
-           clearTimeout(timeoutId);
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.message || "Error en el servidor");
+      }
 
-           if (!response.ok) {
-               const error = await response.json().catch(() => ({}));
-               throw new Error(error.message || "Error en el servidor");
-           }
+      // ✅ Éxito → mostrar resumen
+      mostrarResumen();
 
-           // Éxito - mostrar resumen
-           mostrarResumen();
-           
-       } catch (error) {
-           console.error(`Intento ${intentos} fallido:`, error);
-           
-           if (intentos < MAX_INTENTOS) {
-               // Reintentar automáticamente después de un delay
-               await new Promise(resolve => setTimeout(resolve, 1000 * intentos));
-               return enviarDatos();
-           }
-           
-           // Mostrar error final después de todos los intentos
-           botones.forEach(boton => {
-               boton.disabled = false;
-               boton.textContent = pasoActual === 12 ? 'Enviar' : 'Siguiente →';
-           });
-           
-           alert(`No se pudo enviar después de ${MAX_INTENTOS} intentos. Por favor verifica tu conexión e intenta nuevamente.`);
-       }
-   };
+    } catch (error) {
+      console.error(`Intento ${intentos} fallido:`, error);
 
-   // Iniciar el proceso
-   await enviarDatos();
+      if (intentos < MAX_INTENTOS) {
+        await new Promise(resolve => setTimeout(resolve, 1000 * intentos));
+        return enviarDatos();
+      }
+
+      // ❌ Todos los intentos fallaron → restaurar UI
+      pasoActualDiv.innerHTML = `
+        <h1>¿Es la primera vez que asistes<br>al campo de verano?</h1>
+        <div class="opciones">
+          <button onclick="responderPrimeraVez(true)">Sí</button>
+          <button onclick="responderPrimeraVez(false)">No</button>
+        </div>
+      `;
+
+      alert(`No se pudo enviar después de ${MAX_INTENTOS} intentos. Por favor verifica tu conexión e intenta nuevamente.`);
+    }
+  };
+
+  await enviarDatos();
 }
+
 
 async function finalizarServidor(iglesia_nuestra) {
   respuestasServidor.iglesia_nuestra = iglesia_nuestra;
