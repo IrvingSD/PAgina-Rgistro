@@ -135,19 +135,14 @@ function mostrarPaso(siguientePaso) {
     case 1: respuestas.nombre = input.value.trim(); break;
     case 2: // Apellido
       const apellidos = input.value.trim();
-      
-      // Expresión regular que permite:
-      // - Apellidos compuestos (palabras con espacios, "de", "del", etc.)
-      // - Pero asegura que haya al menos dos bloques de apellidos
       if (!/(^|\s)([^\s]+\s+){1,}[^\s]+$/.test(apellidos) || 
           apellidos.split(/\s+/).filter(Boolean).length < 2) {
         alert("Por favor ingresa al menos dos apellidos\nEjemplos:\n- González López\n- Martínez de la Rosa\n- Del Valle Sánchez");
         return;
       }
-      
-      respuestas.apellido = apellidos.replace(/\s+/g, ' ').trim(); // Normaliza espacios
+      respuestas.apellido = apellidos.replace(/\s+/g, ' ').trim();
       break;
-    case 3: // Edad
+    case 3:
       const edad = parseInt(input.value.trim());
       if (isNaN(edad) || edad < 2 || edad > 25) {
         alert("Por favor ingresa una edad válida (entre 2 y 25 años)");
@@ -156,18 +151,13 @@ function mostrarPaso(siguientePaso) {
       respuestas.edad = edad;
       break;
     case 4: respuestas.tutor = input.value.trim(); break;
-    case 5: // Teléfono
+    case 5:
       const telefono = input.value.trim();
-      // Eliminar cualquier carácter que no sea dígito
       const soloDigitos = telefono.replace(/\D/g, '');
-      
-      // Validar que sean exactamente 10 dígitos
       if (soloDigitos.length !== 10) {
         alert("Por favor ingresa exactamente 10 dígitos (sin guiones ni espacios)");
         return;
       }
-      
-      // Formatear como 555-123-4567 antes de guardar
       respuestas.tel = `${soloDigitos.substring(0, 3)}-${soloDigitos.substring(3, 6)}-${soloDigitos.substring(6)}`;
       break;
     case 6: respuestas.localidad = input.value.trim(); break;
@@ -175,14 +165,30 @@ function mostrarPaso(siguientePaso) {
     case '11a': respuestas.iglesia = input.value.trim(); break;
   }
 
-  // Ocultar paso actual y mostrar el siguiente
+  // Ocultar paso actual
   pasoActualDiv.classList.add('oculto');
+
+  // Mostrar siguiente paso
   setTimeout(() => {
-    document.getElementById(`step-${siguientePaso}`).classList.remove('oculto');
+    const siguienteDiv = document.getElementById(`step-${siguientePaso}`);
+    
+    // Si es el paso 12, regenerar dinámicamente los botones
+    if (siguientePaso === 12) {
+      siguienteDiv.innerHTML = `
+        <h1>¿Es la primera vez que asistes<br>al campo de verano?</h1>
+        <div class="opciones">
+          <button onclick="responderPrimeraVez(true)">Sí</button>
+          <button onclick="responderPrimeraVez(false)">No</button>
+        </div>
+      `;
+    }
+
+    siguienteDiv.classList.remove('oculto');
   }, 300);
 
   pasoActual = siguientePaso;
 }
+
 
 function mostrarPasoServidor(siguientePaso) {
   const pasoDiv = document.getElementById(`step-${pasoActual}`);
