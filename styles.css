@@ -172,13 +172,25 @@ button:disabled {
 }
 
 #menu {
-    pointer-events: auto;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    gap: 40px; /* Distancia entre el logo y la fila de botones */
+    width: 90%;
+    max-width: 1000px; /* Le da espacio suficiente para extenderse de lado */
+    z-index: 10;
+    pointer-events: auto;
+}
+
+/* --- NUEVA FILA HORIZONTAL DE BOTONES --- */
+.opciones-menu {
+    display: flex;
+    flex-direction: row; /* Los alinea en fila horizontal */
+    justify-content: center;
+    align-items: center;
+    gap: 20px;          /* Separación entre cada botón */
+    width: 100%;
 }
 
 h1 {
@@ -208,4 +220,79 @@ canvas.shader-background {
     z-index: 1;
     display: block;
     pointer-events: none;
+}
+
+/* --- ANIMACIÓN DEL LOGO (CAÍDA Y REBOTE ELÁSTICO) --- */
+.logo-animado {
+    width: 100%;
+    max-width: 700px;       /* 2 veces más grande que los 320px anteriores */
+    height: auto;
+    
+    /* Ajuste óptico: Desplaza el logo un poco a la derecha para compensar el destello */
+    margin-left: 90px;      
+    
+    animation: caerYRebotar 1.2s cubic-bezier(0.25, 1.4, 0.5, 1) forwards;
+}
+
+@keyframes caerYRebotar {
+    0% {
+        /* Mantenemos el desplazamiento en X (35px) durante la caída */
+        transform: translateY(-500px) translateX(35px) scale(0.7); 
+        opacity: 0;
+    }
+    60% {
+        transform: translateY(20px) translateX(35px) scale(1.08);   
+        opacity: 1;
+    }
+    80% {
+        transform: translateY(-10px) translateX(35px) scale(0.97);  
+    }
+    100% {
+        transform: translateY(0) translateX(35px) scale(1);         
+    }
+}
+
+/* --- ANIMACIÓN EN CASCADA PARA LOS BOTONES --- */
+.menu-boton {
+    opacity: 0; /* Inician invisibles */
+    animation: aparecerBoton 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes aparecerBoton {
+    0% {
+        transform: translateY(25px); /* Suben un poquito al aparecer */
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Tiempos de retraso para que aparezcan uno por uno de izquierda a derecha */
+.menu-boton:nth-child(1) { animation-delay: 0.8s; }
+.menu-boton:nth-child(2) { animation-delay: 1.0s; }
+.menu-boton:nth-child(3) { animation-delay: 1.2s; }
+.menu-boton:nth-child(4) { animation-delay: 1.4s; }
+
+
+/* --- RESPONSIVO PARA PANTALLAS CHICAS (MÓVILES) --- */
+@media (max-width: 850px) {
+    .opciones-menu {
+        flex-direction: column;
+        gap: 15px;
+        max-width: 300px;       
+    }
+    .logo-animado {
+        max-width: 400px;       /* Tamaño intermedio y cómodo para pantallas de celular */
+        margin-left: 15px;      /* Reducimos el empuje en pantallas chicas para que no se corte */
+    }
+    
+    /* Ajustamos el keyframe en móvil para que use el margen de 15px */
+    @keyframes caerYRebotar {
+        0% { transform: translateY(-500px) translateX(15px) scale(0.7); opacity: 0; }
+        60% { transform: translateY(20px) translateX(15px) scale(1.08); opacity: 1; }
+        80% { transform: translateY(-10px) translateX(15px) scale(0.97); }
+        100% { transform: translateY(0) translateX(15px) scale(1); }
+    }
 }
