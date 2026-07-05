@@ -235,7 +235,7 @@ canvas.shader-background {
     /* Ajuste óptico: Desplaza el logo un poco a la derecha para compensar el destello */
     margin-left: 90px;      
     
-    animation: caerYRebotar 1.2s cubic-bezier(0.25, 1.4, 0.5, 1) forwards;
+    animation: caerYRebotar 3s cubic-bezier(0.25, 1.4, 0.5, 1) forwards;
 }
 
 @keyframes caerYRebotar {
@@ -301,7 +301,7 @@ canvas.shader-background {
     }
 
     .logo-animado {
-        max-width: 500px; /* Ajuste para que balancee con el bloque de botones */
+        max-width: 600px; /* Ajuste para que balancee con el bloque de botones */
         margin-left: 30px; 
     }
 }
