@@ -52,18 +52,29 @@ input {
 }
 
 button {
-    background-color: #ff6f91;
-    color: white;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600; /* Le da cuerpo a las letras para que se lean bien */
     font-size: 1.2rem;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 12px;
+    color: #ffffff; /* Blanco puro para máxima nitidez */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Una sombra sutil para despegar el texto del fondo */
+    
+    /* Tu base de cristal y cian */
+    padding: 15px 35px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 2px solid rgba(0, 240, 255, 0.4);
+    border-radius: 16px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-button:hover {
-    background-color: #ff4e73;
+button:hover, button:active {
+    background-color: rgba(0, 240, 255, 0.15);
+    border-color: rgba(0, 240, 255, 1);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+    transform: scale(1.05);
 }
 
 
@@ -149,7 +160,7 @@ button:disabled {
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 #menu {
