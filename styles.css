@@ -51,30 +51,38 @@ input {
     margin-bottom: 20px;
 }
 
-button {
+/* --- ESTILO UNIFICADO PARA BOTONES Y ENLACES DEL MENÚ --- */
+button, .menu-boton {
     font-family: 'Fredoka', sans-serif;
-    font-weight: 600; /* Le da cuerpo a las letras para que se lean bien */
+    font-weight: 600;
     font-size: 1.2rem;
-    color: #ffffff; /* Blanco puro para máxima nitidez */
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Una sombra sutil para despegar el texto del fondo */
+    color: #ffffff !important; /* Fuerza el texto blanco puro */
+    text-decoration: none;    /* Quita el subrayado azul nativo de los enlaces <a> */
+    display: inline-block;    /* Permite que los enlaces respeten el padding correctamente */
+    width: 100%;              /* Se adaptan al contenedor del menú */
+    padding: 18px 35px;       /* Un poco más altos para que sea cómodo pulsar en celular */
+    box-sizing: border-box;   /* Evita que el ancho se deforme por el borde o padding */
     
-    /* Tu base de cristal y cian */
-    padding: 15px 35px;
+    /* Base de Cristal (Glassmorphism) */
     background-color: rgba(255, 255, 255, 0.06);
-    border: 2px solid rgba(0, 240, 255, 0.4);
+    border: 2px solid rgba(0, 240, 255, 0.4); /* Borde Cian Eléctrico */
     border-radius: 16px;
     cursor: pointer;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-button:hover, button:active {
+/* --- EFECTO AL PASAR EL CURSOR O SELECCIONAR EN CELULAR --- */
+button:hover, button:active, .menu-boton:hover, .menu-boton:active {
     background-color: rgba(0, 240, 255, 0.15);
     border-color: rgba(0, 240, 255, 1);
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
-    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.5); /* Brillo Cian */
+    transform: scale(1.03); /* Un ligero escalado elegante */
+    outline: none;
 }
 
 
@@ -180,29 +188,15 @@ h1 {
     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Botones estilo Glassmorphism (Efecto Esmerilado) */
+
 .menu-boton {
     display: block;
     width: 100%;
     padding: 20px;
     font-size: 1.4rem;
-    background-color: rgba(255, 255, 255, 0.07);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    border-radius: 16px;
-    text-align: center;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
 }
 
-.menu-boton:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.6);
-    transform: translateY(-2px);
-}
 
 /* El lienzo del Shader siempre se quedará fijo al fondo */
 canvas.shader-background {
