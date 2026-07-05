@@ -1,49 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Favicon para navegadores -->
-    <link rel="icon" href="icon.png" type="image/png">
-
-    <!-- Icono para apps en el celular -->
-    <link rel="apple-touch-icon" href="icon.png">
-    <link rel="manifest" href="manifest.json">
   <meta charset="UTF-8">
   <title>Menú Principal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <link rel="stylesheet" href="styles.css">
-  <style>
-    .menu-boton {
-      display: block;
-      width: 80%;
-      max-width: 300px;
-      margin: 0px auto;
-      padding: 20px;
-      font-size: 1.5rem;
-      background-color: rgba(255, 255, 255, 0.12);
-      border: 2px solid white;
-      color: white;
-      border-radius: 16px;
-      text-align: center;
-      text-decoration: none;
-      transition: background 0.3s ease;
-    }
-
-    .menu-boton:hover {
-      background-color: rgba(255, 255, 255, 0.25);
-    }
-  </style>
 </head>
 <body>
-  <div>
-    <div  id="menu">
-      <h1 style="color: white;">📱 Menú Principal</h1>
 
+  <div class="main-wrapper">
+    <div id="menu">
+      <h1>📱 Menú Principal</h1>
       <a class="menu-boton" href="index.html">🧒 Registro</a>
       <a class="menu-boton" href="asistencia.html">✅ Asistencia</a>
       <a class="menu-boton" href="dashboard.html">📊 Ver dashboard</a>
       <a class="menu-boton" href="buscar.html">🔍 Buscar</a>
-
     </div>
   </div>
+
+  <script src="fondo.js"></script>
 </body>
 </html>
