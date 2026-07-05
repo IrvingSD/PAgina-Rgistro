@@ -302,6 +302,6 @@ canvas.shader-background {
 
     .logo-animado {
         max-width: 500px; /* Ajuste para que balancee con el bloque de botones */
-        margin-left: 60px; 
+        margin-left: 20px; 
     }
 }
