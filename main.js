@@ -144,8 +144,8 @@ function mostrarPaso(siguientePaso) {
       break;
     case 3:
       const edad = parseInt(input.value.trim());
-      if (isNaN(edad) || edad < 2 || edad > 25) {
-        alert("Por favor ingresa una edad válida (entre 2 y 25 años)");
+      if (isNaN(edad) || edad < 3 || edad > 25) {
+        alert("Por favor ingresa una edad válida (entre 3 y 25 años)");
         return;
       }
       respuestas.edad = edad;
