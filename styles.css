@@ -52,7 +52,7 @@ input {
 }
 
 /* --- ESTILO UNIFICADO PARA BOTONES Y ENLACES DEL MENÚ --- */
-button, .menu-boton, .boton {
+button, .menu-boton {
     font-family: 'Fredoka', sans-serif;
     font-weight: 600;
     font-size: 1.2rem;
@@ -77,7 +77,7 @@ button, .menu-boton, .boton {
 }
 
 /* --- EFECTO AL PASAR EL CURSOR O SELECCIONAR EN CELULAR --- */
-button:hover, button:active, .menu-boton:hover, .menu-boton:active, .boton:hover, .boton:active {
+button:hover, button:active, .menu-boton:hover, .menu-boton:active {
     background-color: rgba(0, 240, 255, 0.15);
     border-color: rgba(0, 240, 255, 1);
     box-shadow: 0 0 20px rgba(0, 240, 255, 0.5); /* Brillo Cian */
@@ -85,23 +85,6 @@ button:hover, button:active, .menu-boton:hover, .menu-boton:active, .boton:hover
     outline: none;
 }
 
-.opciones {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales por defecto */
-    gap: 15px;
-    width: 100%;
-    max-width: 440px; /* Alineado con el tamaño máximo de tu menú */
-    margin: 20px auto 0 auto;
-}
-
-.boton-regreso {
-    grid-column: span 2; /* ◄ Hace que el botón ocupe las 2 columnas completas */
-    text-align: center;  /* Centra el texto "Menú principal" dentro de la etiqueta <a> */
-    
-    /* Opcional: Si quieres un sutil cambio de color (p.e. un tono más neutro/rojo/naranja) 
-       para diferenciarlo de las acciones principales, puedes descomentar lo siguiente: */
-    /* border-color: rgba(255, 255, 255, 0.3); */
-}
 
 .step {
     position: absolute;
@@ -311,7 +294,7 @@ canvas.shader-background {
     }
 
     /* Reducimos un poco el padding para que entren bien en pantallas chicas */
-    button, .menu-boton, .boton {
+    button, .menu-boton {
         padding: 15px 10px;
         font-size: 1.3rem;
         width: 100%; /* Ocupa todo su espacio asignado en la rejilla */
@@ -320,9 +303,5 @@ canvas.shader-background {
     .logo-animado {
         max-width: 600px; /* Ajuste para que balancee con el bloque de botones */
         margin-left: 30px; 
-    }
-
-    .boton-regreso {
-        grid-column: span 2;
     }
 }
