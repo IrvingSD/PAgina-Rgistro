@@ -7,9 +7,7 @@
 }
 
 body {
-    background-color: #000000; /* Asegura fondo negro base en toda la app */
-    
-    /* 💡 Deja un espacio automático arriba que mide exactamente lo que mide el notch */
+    background-color: #000000;
     padding-top: env(safe-area-inset-top); 
 }
 
