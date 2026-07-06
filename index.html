@@ -34,6 +34,7 @@
             <h1>¡Hola!<br>¿Cómo te llamas?</h1>
             <input type="text" placeholder="Nombre(s)" id="nombre">
             <button onclick="mostrarPaso(2)">Siguiente →</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
 
         <!-- Paso 2: Apellido -->
@@ -41,6 +42,7 @@
             <h1>¿Y tus apellidos?</h1>
             <input type="text" placeholder="Ej. Perez Martinez" id="apellido">
             <button onclick="mostrarPaso(3)">Siguiente →</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
 
         <!-- Paso 3: Edad -->
@@ -48,6 +50,7 @@
             <h1>¿Cuántos años tienes?</h1>
             <input type="number" placeholder="Edad" id="edad">
             <button onclick="mostrarPaso(4)">Enviar</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
 
         <!-- Paso 4: Tutor -->
@@ -55,6 +58,7 @@
             <h1>¿Cómo se llama tu tutor?<br><p class="subtexto">Nombre completo</p></h1>
             <input type="text" placeholder="Nombre Completo" id="tutor">
             <button onclick="mostrarPaso(5)">Enviar</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
 
         <!-- Paso 5: Contacto -->
@@ -62,6 +66,7 @@
             <h1>Número de Emergencia</h1>
             <input maxlength="10" pattern="\d{10}" oninput="this.value = this.value.replace(/\D/g, '')" type="tel" placeholder="Ej. 5551234567" id="tel">
             <button onclick="mostrarPaso(6)">Enviar</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
 
         <!-- Paso 6: Localidad -->
@@ -69,6 +74,7 @@
             <h1>¿De que localidad nos visitas?</h1>
             <input type="text" placeholder="Ej. Nonoalco" id="localidad">
             <button onclick="mostrarPaso(7)">Enviar</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
 
         <!-- Paso 7: Medicamento -->
@@ -77,6 +83,7 @@
             <div class="opciones">
                 <button onclick="responderMedicamento(true)">Sí</button>
                 <button onclick="responderMedicamento(false)">No</button>
+                <a href="inicio.html" class="boton-regreso">Menú principal</a>
             </div>
         </div>
 
@@ -86,6 +93,7 @@
             <div class="opciones">
                 <button onclick="responderCondicion(true)">Sí</button>
                 <button onclick="responderCondicion(false)">No</button>
+                <a href="inicio.html" class="boton-regreso">Menú principal</a>
             </div>
         </div>
 
@@ -94,6 +102,7 @@
             <h1>¿A qué eres alérgico<br>o qué enfermedad tienes?</h1>
             <input type="text" placeholder="Descríbelo aquí" id="condicion">
             <button onclick="mostrarPaso(10)">Siguiente →</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
 
         <!-- Paso 10: Pregunta si es cristiano -->
@@ -102,6 +111,7 @@
             <div class="opciones">
             <button onclick="responderCristiano(true)">Sí</button>
             <button onclick="responderCristiano(false)">No</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
             </div>
         </div>
 
@@ -110,6 +120,7 @@
             <h1>¿A qué iglesia asistes?</h1>
             <input type="text" placeholder="Nombre de tu iglesia" id="iglesia">
             <button onclick="mostrarPaso(12)">Siguiente →</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
 
         <!-- Paso 12: ¿Es tu primera vez en el campo? -->
@@ -118,6 +129,7 @@
             <div class="opciones">
             <button onclick="responderPrimeraVez(true)">Sí</button>
             <button onclick="responderPrimeraVez(false)">No</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
             </div>
         </div>
 
@@ -127,6 +139,7 @@
         <h1>¿Cuál es tu nombre?</h1>
         <input type="text" id="s-nombre" placeholder="Nombre(s)">
         <button onclick="mostrarPasoServidor('s2')">Siguiente →</button>
+        <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
 
         <!-- Paso s2: Apellido -->
@@ -134,6 +147,7 @@
         <h1>¿Y tus apellidos?</h1>
         <input type="text" id="s-apellido" placeholder="Ej. Pérez López">
         <button onclick="mostrarPasoServidor('s3')">Siguiente →</button>
+        <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
 
         <!-- Paso s3: ¿Es cristiano? -->
@@ -142,6 +156,7 @@
         <div class="opciones">
             <button onclick="responderCristianoServidor(true)">Sí</button>
             <button onclick="responderCristianoServidor(false)">No</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
         </div>
 
@@ -151,6 +166,7 @@
         <div class="opciones">
             <button onclick="finalizarServidor(true)">Sí</button>
             <button onclick="finalizarServidor(false)">No</button>
+            <a href="inicio.html" class="boton-regreso">Menú principal</a>
         </div>
         </div>
 
@@ -160,6 +176,7 @@
             <h1>¡Listo!</h1>
             <p id="resumen"></p>
             <button onclick="nuevoRegistro()" style="margin-top: 20px;">Nuevo registro</button>
+            <a href="inicio.html" class="boton-regreso" style="width: 90%;">Menú principal</a>
 
         </div>
 

@@ -41,14 +41,27 @@ h1 {
     margin-bottom: 20px;
 }
 
-input {
-    padding: 15px;
+
+
+input[type="text"], input[type="number"], input[type="tel"], select {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 500;
     font-size: 1.2rem;
-    border: none;
-    border-radius: 12px;
-    width: 80%;
-    max-width: 300px;
-    margin-bottom: 20px;
+    color: #ffffff;
+    width: 100%;
+    padding: 14px 20px;
+    box-sizing: border-box;
+    
+    /* Base de Cristal Oscura (Para que el texto sea legible sobre el fondo animado) */
+    background-color: rgba(10, 10, 15, 0.6) !important; 
+    border: 2px solid rgba(255, 255, 255, 0.15); /* Borde inicial muy sutil */
+    border-radius: 12px; /* Esquinas ligeramente más suaves que los botones */
+    outline: none;
+    
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* --- ESTILO UNIFICADO PARA BOTONES Y ENLACES DEL MENÚ --- */
@@ -77,12 +90,20 @@ button, .menu-boton, .boton-regreso {
 }
 
 /* --- EFECTO AL PASAR EL CURSOR O SELECCIONAR EN CELULAR --- */
-button:hover, button:active, .menu-boton:hover, .menu-boton:active, .boton-regreso:active, .boton-regreso:hover {
+button:hover, button:active, .menu-boton:hover, .menu-boton:active, .boton-regreso:hover, .boton-regreso:active{
     background-color: rgba(0, 240, 255, 0.15);
     border-color: rgba(0, 240, 255, 1);
     box-shadow: 0 0 20px rgba(0, 240, 255, 0.5); /* Brillo Cian */
     transform: scale(1.03); /* Un ligero escalado elegante */
     outline: none;
+}
+
+.step h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-shadow: 0px 0px 15px rgba(0, 240, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
 }
 
 
@@ -96,8 +117,9 @@ button:hover, button:active, .menu-boton:hover, .menu-boton:active, .boton-regre
     align-items: center;
     gap: 20px;
     opacity: 1;
-    transition: opacity 0.6s ease;
+    transition: opacity 0.6s ease;    
   }
+
   
 .oculto {
 
@@ -112,10 +134,31 @@ button:hover, button:active, .menu-boton:hover, .menu-boton:active, .boton-regre
 }
 
 .opciones {
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales */
+    gap: 20px;
+    width: 100%;
+    max-width: 440px; 
+    margin: 20px auto 0 auto;
 }
+
+.opciones button {
+    font-size: 1.35rem; 
+}
+
+.boton-regreso {
+    grid-column: span 2; /* Ocupa las 2 columnas en la fila de abajo */
+    display: flex;
+    justify-content: center;  /* Centra el texto horizontalmente */
+    align-items: center;
+    width: 70%;
+    margin: 40px auto 0 auto;
+    font-weight: 100;
+    font-size: 1.15rem;
+    border: 2px solid rgba(255, 255, 255, 0.25); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
 
 .subtexto{
     font-size: 1.8rem;
@@ -130,8 +173,14 @@ button:hover, button:active, .menu-boton:hover, .menu-boton:active, .boton-regre
 }
 
 button:disabled {
-    background-color: #7a7a7a !important;
+    background-color: rgba(255, 255, 255, 0.02) !important; /* Cristal aún más transparente */
+    border-color: rgba(255, 255, 255, 0.1) !important;     /* Borde blanco muy sutil, sin color */
+    color: rgba(255, 255, 255, 0.3) !important;          /* Texto semitransparente */
+    box-shadow: none !important;                          /* Adiós al brillo neón */
+    text-shadow: none !important;                         /* Adiós al resplandor del texto */
     cursor: not-allowed;
+    transform: none !important;                           /* Evita que se mueva si intentan hacer hover */
+    pointer-events: none;                                 /* Desactiva cualquier interacción */
 }
 
 
@@ -303,5 +352,9 @@ canvas.shader-background {
     .logo-animado {
         max-width: 600px; /* Ajuste para que balancee con el bloque de botones */
         margin-left: 30px; 
+    }
+    .boton-regreso {
+        width: 100%; /* En celulares vuelve al ancho completo para mayor comodidad */
+        margin: 0 auto;
     }
 }

@@ -13,6 +13,7 @@
       <div class="opciones">
         <button onclick="elegirTipo('niño')">Niño</button>
         <button onclick="elegirTipo('servidor')">Servidor</button>
+        <a href="inicio.html" class="boton-regreso">Menú principal</a>
       </div>
     </div>
 
@@ -22,10 +23,11 @@
         <h1 id="titulo-tipo">Pasar asistencia</h1>
         <input type="text" id="busqueda" placeholder="Buscar por nombre o apellido" oninput="buscarCoincidencias()" style="margin-bottom: -15px;">
         <ul id="resultados" style="list-style:none; padding:0; color:white;"></ul>
-        <button id="btn-confirmar" onclick="confirmarAsistencia()" disabled>Confirmar asistencia</button>
-        <button id="btn-cambiar" onclick="reiniciarTipo()" style="margin-bottom: 20px;">
+        <button id="btn-confirmar" onclick="confirmarAsistencia()" disabled style="width: 90%;">Confirmar asistencia</button>
+        <button id="btn-cambiar" onclick="reiniciarTipo()" style="margin-bottom: 20px;width: 90%;">
         Cambiar a otro tipo
         </button>
+        <a href="inicio.html" class="boton-regreso">Menú principal</a>
         <p id="mensaje" style="color:white; font-size:1.2rem; margin-top:20px;"></p>
     </div>
   </div>
