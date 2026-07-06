@@ -6,6 +6,11 @@
     box-sizing: border-box;
 }
 
+body {
+    /* Evita que el notch o la barra de iOS tape tu contenido */
+    padding-top: env(safe-area-inset-top); 
+}
+
 
 html, body {
     margin: 0;
