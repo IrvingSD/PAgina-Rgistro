@@ -64,6 +64,20 @@ input[type="text"], input[type="number"], input[type="tel"], select {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+input:focus, select:focus {
+    background-color: rgba(10, 10, 15, 0.8) !important; /* Se oscurece un poco para leer mejor */
+    border-color: rgba(0, 240, 255, 0.8); /* Encendemos el borde con tu Cian Eléctrico */
+    
+    /* Efecto de luz neón hacia adentro y hacia afuera */
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3), 
+                inset 0 0 8px rgba(0, 240, 255, 0.1); 
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.4); /* Texto tenue para que no compita con lo que se escribe */
+    font-size: 1rem;
+}
+
 /* --- ESTILO UNIFICADO PARA BOTONES Y ENLACES DEL MENÚ --- */
 button, .menu-boton, .boton-regreso {
     font-family: 'Fredoka', sans-serif;
@@ -260,6 +274,10 @@ h1 {
     align-items: center;
 
 
+}
+
+.info-box {
+    font-size: 1.3rem;
 }
 
 

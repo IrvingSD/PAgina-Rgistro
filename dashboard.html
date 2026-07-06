@@ -6,45 +6,139 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <style>
-    .info-box {
-      background-color: rgba(255,255,255,0.1);
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      color: white;
-      font-size: 1.4rem;
+    /* --- TARJETA PRINCIPAL (HERO CONTADOR) --- */
+    .tarjeta-total {
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 2px solid rgba(0, 240, 255, 0.4); /* Resaltado con tu cian eléctrico */
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
       text-align: center;
     }
 
-    .rango {
-      font-size: 1.2rem;
-      margin: 5px 0;
+    .tarjeta-total .etiqueta {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 8px;
     }
 
+    .tarjeta-total .numero {
+      font-size: 3.8rem; /* ¡Número gigante! */
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+      line-height: 1;
+    }
+
+    /* --- CONTENEDOR EN REJILLA PARA LAS SUB-MÉTRICAS --- */
+    .sub-metricas {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* Divide en 2 columnas perfectas */
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .tarjeta-sub {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 15px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .tarjeta-sub .sub-etiqueta {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 4px;
+    }
+
+    .tarjeta-sub .sub-numero {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    /* --- CONTENEDOR DESGLOSE DE EDADES --- */
     .grupo-container {
-      margin-top: 20px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 25px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .grupo-container h2 {
+    color: rgba(255, 255, 255, 0.9) !important; /* Blanco translúcido para alta legibilidad */
+    font-weight: 600;
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: left;
+    }
+
+    /* Estilo de fila de dashboard para las edades */
+    .rango {
+      display: flex;
+      justify-content: space-between; /* Separa el texto "X años" a la izq y el número a la der */
+      align-items: center;
+      font-size: 1.2rem;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: white;
+    }
+
+    .rango:last-child {
+      border-bottom: none; /* Quita la última línea divisoria */
+    }
+
+    .rango .cantidad-edad {
+      font-weight: 700;
+      color: rgba(0, 240, 255, 1); /* Resalta el número en cian */
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
     }
   </style>
 </head>
 <body>
   <div class="main-wrapper">
     <div class="step" id="dashboard">
-      <h1>📊 Asistencias de Hoy</h1>
+      <h1 class="logo-animado">Asistencias de Hoy</h1>
 
       <div id="info" style="width: 100%;">
-        <div class="info-box" id="total-asistencias">Total: ...</div>
-        <div class="info-box" id="servidores">Servidores: ...</div>
+        
+        <div class="tarjeta-total">
+          <div class="etiqueta">Total de asistencias</div>
+          <div class="numero" id="total-asistencias">...</div>
+        </div>
 
-        <div class="info-box grupo-container">
-          <h2 style="margin-bottom:10px;">Niños por edad:</h2>
+        <div class="sub-metricas">
+          <div class="tarjeta-sub">
+            <div class="sub-etiqueta">Niños</div>
+            <div class="sub-numero" id="niños">...</div>
+          </div>
+          <div class="tarjeta-sub">
+            <div class="sub-etiqueta">Servidores</div>
+            <div class="sub-numero" id="servidores">...</div>
+          </div>
+        </div>
+
+        <div class="grupo-container">
+          <h2 style="margin-top:0; margin-bottom:15px; font-size: 1.4rem; text-align: left;">Niños por edad:</h2>
           <div id="rango-lista"></div>
         </div>
+
         <a href="inicio.html" class="boton-regreso">Menú principal</a>
       </div>
     </div>
-    
   </div>
-
 
   <script>
     async function cargarResumen() {
@@ -52,21 +146,30 @@
         const res = await fetch("https://backend-production-0e41.up.railway.app/asistencias_hoy");
         const data = await res.json();
 
-        document.getElementById("total-asistencias").textContent = `👥 Total de asistencias: ${data.total_asistencias}`;
-        document.getElementById("servidores").textContent = `🙋‍♂️ Servidores: ${data.servidores}`;
+        // Inyectamos solo los números en los contenedores correspondientes
+        document.getElementById("total-asistencias").textContent = data.total_asistencias;
+        
+        // Sumamos los niños desde el diccionario de rangos para obtener el total exacto de niños
+        const totalNinos = Object.values(data.niños_por_rango).reduce((a, b) => a + b, 0);
+        document.getElementById("niños").textContent = totalNinos;
+        
+        document.getElementById("servidores").textContent = data.servidores;
 
         const rangoLista = document.getElementById("rango-lista");
         rangoLista.innerHTML = "";
 
+        // Renderizado dinámico de filas alineadas estilo Dashboard
         for (const [rango, cantidad] of Object.entries(data.niños_por_rango)) {
           const div = document.createElement("div");
           div.className = "rango";
-          div.textContent = `🧒 ${rango} años: ${cantidad}`;
+          
+          // Dividimos el texto en dos etiquetas para que 'justify-content: space-between' haga su magia
+          div.innerHTML = `<span>${rango} años</span> <span class="cantidad-edad">${cantidad}</span>`;
           rangoLista.appendChild(div);
         }
 
       } catch (e) {
-        document.getElementById("info").innerHTML = "<p style='color:white;'>❌ Error al cargar el resumen</p>";
+        document.getElementById("info").innerHTML = "<p style='color:white; text-align:center;'>❌ Error al cargar el resumen</p>";
       }
     }
 
