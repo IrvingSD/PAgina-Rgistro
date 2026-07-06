@@ -52,7 +52,7 @@ input {
 }
 
 /* --- ESTILO UNIFICADO PARA BOTONES Y ENLACES DEL MENÚ --- */
-button, .menu-boton {
+button, .menu-boton, .boton {
     font-family: 'Fredoka', sans-serif;
     font-weight: 600;
     font-size: 1.2rem;
@@ -77,7 +77,7 @@ button, .menu-boton {
 }
 
 /* --- EFECTO AL PASAR EL CURSOR O SELECCIONAR EN CELULAR --- */
-button:hover, button:active, .menu-boton:hover, .menu-boton:active {
+button:hover, button:active, .menu-boton:hover, .menu-boton:active, .boton {
     background-color: rgba(0, 240, 255, 0.15);
     border-color: rgba(0, 240, 255, 1);
     box-shadow: 0 0 20px rgba(0, 240, 255, 0.5); /* Brillo Cian */
@@ -311,7 +311,7 @@ canvas.shader-background {
     }
 
     /* Reducimos un poco el padding para que entren bien en pantallas chicas */
-    button, .menu-boton {
+    button, .menu-boton, .boton {
         padding: 15px 10px;
         font-size: 1.3rem;
         width: 100%; /* Ocupa todo su espacio asignado en la rejilla */
@@ -321,7 +321,7 @@ canvas.shader-background {
         max-width: 600px; /* Ajuste para que balancee con el bloque de botones */
         margin-left: 30px; 
     }
-    
+
     .boton-regreso {
         grid-column: span 2;
     }
