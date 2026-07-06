@@ -7,7 +7,9 @@
 }
 
 body {
-    /* Evita que el notch o la barra de iOS tape tu contenido */
+    background-color: #000000; /* Asegura fondo negro base en toda la app */
+    
+    /* 💡 Deja un espacio automático arriba que mide exactamente lo que mide el notch */
     padding-top: env(safe-area-inset-top); 
 }
 
