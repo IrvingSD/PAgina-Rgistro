@@ -422,10 +422,10 @@ function mostrarResumen() {
         <p><strong>Tutor:</strong> ${respuestas.tutor}</p>
         <p><strong>Teléfono:</strong> ${formatearTelefono(respuestas.tel)}</p>
         <p><strong>Localidad:</strong> ${respuestas.localidad}</p>
-        <p><strong>Medicamento autorizado:</strong> ${respuestas.medicamento ? "✅ Sí" : "❌ No"}</p>
-        <p><strong>Condición médica:</strong> ${respuestas.condicion ? "✅ " + respuestas.condicionDetalle : "❌ Ninguna"}</p>
-        <p><strong>Es cristiano:</strong> ${respuestas.cristiano ? "✅ Sí" + (respuestas.iglesia ? ` (${respuestas.iglesia})` : '') : "❌ No"}</p>
-        <p><strong>Primera vez:</strong> ${respuestas.primeraVez ? "✨ Sí" : "🔄 No"}</p>
+        <p><strong>Medicamento autorizado:</strong> ${respuestas.medicamento ? "Sí" : "No"}</p>
+        <p><strong>Condición médica:</strong> ${respuestas.condicion ? "Sí" + respuestas.condicionDetalle : "Ninguna"}</p>
+        <p><strong>Es cristiano:</strong> ${respuestas.cristiano ? "Sí" + (respuestas.iglesia ? ` (${respuestas.iglesia})` : '') : "No"}</p>
+        <p><strong>Primera vez:</strong> ${respuestas.primeraVez ? "Sí" : "No"}</p>
       </div>
     </div>
   `;

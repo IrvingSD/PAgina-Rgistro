@@ -150,39 +150,66 @@
   </div>
 
   <script>
-    async function cargarResumen() {
-      try {
-        const res = await fetch("https://backend-production-0e41.up.railway.app/asistencias_hoy");
-        const data = await res.json();
+    async function cargarResumen(intentosMaximos = 3) {
+      const infoContainer = document.getElementById("info");
 
-        // Inyectamos solo los números en los contenedores correspondientes
-        document.getElementById("total-asistencias").textContent = data.total_asistencias;
-        
-        // Sumamos los niños desde el diccionario de rangos para obtener el total exacto de niños
-        const totalNinos = Object.values(data.niños_por_rango).reduce((a, b) => a + b, 0);
-        document.getElementById("niños").textContent = totalNinos;
-        
-        document.getElementById("servidores").textContent = data.servidores;
+      for (let intento = 1; intento <= intentosMaximos; intento++) {
+        try {
+          // A partir del segundo intento, mostramos un mensaje amigable
+          if (intento > 1) {
+            infoContainer.innerHTML = `<p style='color:white; text-align:center;'>⏳ Despertando al servidor (Intento ${intento} de ${intentosMaximos})...</p>`;
+          }
 
-        const rangoLista = document.getElementById("rango-lista");
-        rangoLista.innerHTML = "";
-
-        // Renderizado dinámico de filas alineadas estilo Dashboard
-        for (const [rango, cantidad] of Object.entries(data.niños_por_rango)) {
-          const div = document.createElement("div");
-          div.className = "rango";
+          const res = await fetch("https://backend-production-0e41.up.railway.app/asistencias_hoy");
           
-          // Dividimos el texto en dos etiquetas para que 'justify-content: space-between' haga su magia
-          div.innerHTML = `<span>${rango} años</span> <span class="cantidad-edad">${cantidad}</span>`;
-          rangoLista.appendChild(div);
-        }
+          // Si Railway responde con un error temporal (ej. 503), forzamos el catch para reintentar
+          if (!res.ok) throw new Error("El backend aún no está listo");
 
-      } catch (e) {
-        document.getElementById("info").innerHTML = "<p style='color:white; text-align:center;'>❌ Error al cargar el resumen</p>";
+          const data = await res.json();
+
+          // Si llegamos aquí, fue exitoso. Limpiamos cualquier mensaje de carga
+          infoContainer.innerHTML = "";
+
+          // Inyectamos solo los números en los contenedores correspondientes
+          document.getElementById("total-asistencias").textContent = data.total_asistencias;
+          
+          // Sumamos los niños desde el diccionario de rangos para obtener el total exacto de niños
+          const totalNinos = Object.values(data.niños_por_rango).reduce((a, b) => a + b, 0);
+          document.getElementById("niños").textContent = totalNinos;
+          
+          document.getElementById("servidores").textContent = data.servidores;
+
+          const rangoLista = document.getElementById("rango-lista");
+          rangoLista.innerHTML = "";
+
+          // Renderizado dinámico de filas alineadas estilo Dashboard
+          for (const [rango, cantidad] of Object.entries(data.niños_por_rango)) {
+            const div = document.createElement("div");
+            div.className = "rango";
+            
+            // Dividimos el texto en dos etiquetas para que 'justify-content: space-between' haga su magia
+            div.innerHTML = `<span>${rango} años</span> <span class="cantidad-edad">${cantidad}</span>`;
+            rangoLista.appendChild(div);
+          }
+
+          // Todo salió perfecto, rompemos el ciclo y salimos de la función
+          return; 
+
+        } catch (e) {
+          console.warn(`Fallo el intento ${intento} al conectar con Railway.`);
+          
+          if (intento === intentosMaximos) {
+            // Solo si agotamos los 3 intentos mostramos el error definitivo
+            infoContainer.innerHTML = "<p style='color:white; text-align:center;'>❌ Error al cargar el resumen. Por favor, recarga la página.</p>";
+          } else {
+            // Esperamos 2.5 segundos (2500ms) antes de volver a intentar
+            await new Promise(resolve => setTimeout(resolve, 2500));
+          }
+        }
       }
     }
 
-    document.addEventListener("DOMContentLoaded", cargarResumen);
+    document.addEventListener("DOMContentLoaded", () => cargarResumen());
   </script>
   <script src="fondo.js"></script>
 </body>
